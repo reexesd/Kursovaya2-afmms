@@ -1,0 +1,33 @@
+E:\Visual studio\проекты\Курсач 2\bin\Debug\DB\RegistredUsers.json
+E:\Visual studio\проекты\Курсач 2\bin\Debug\Курсач 2.exe.config
+E:\Visual studio\проекты\Курсач 2\bin\Debug\Курсач 2.exe
+E:\Visual studio\проекты\Курсач 2\bin\Debug\Курсач 2.pdb
+E:\Visual studio\проекты\Курсач 2\bin\Debug\Newtonsoft.Json.dll
+E:\Visual studio\проекты\Курсач 2\bin\Debug\Newtonsoft.Json.xml
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Server.csproj.AssemblyReference.cache
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Server.csproj.SuggestedBindingRedirects.cache
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Server.AdminScreen.resources
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Курсач_2.Properties.Resources.resources
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Server.csproj.GenerateResource.cache
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Server.csproj.CoreCompileInputs.cache
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Server.csproj.CopyComplete
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Курсач 2.exe
+E:\Visual studio\проекты\Курсач 2\obj\Debug\Курсач 2.pdb
+E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\DB\RegistredUsers.json
+E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Курсач 2.exe.config
+E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Курсач 2.exe
+E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Курсач 2.pdb
+E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Newtonsoft.Json.dll
+E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Newtonsoft.Json.xml
+C:\Users\nikit\Desktop\Мой проект\Server.exe.config
+C:\Users\nikit\Desktop\Мой проект\Server.exe
+C:\Users\nikit\Desktop\Мой проект\Server.pdb
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.SuggestedBindingRedirects.cache
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.AdminScreen.resources
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.Properties.Resources.resources
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.GenerateResource.cache
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.CopyComplete
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.exe
+E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.pdb

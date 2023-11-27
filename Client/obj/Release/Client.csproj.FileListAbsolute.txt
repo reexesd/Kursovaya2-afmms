@@ -1,0 +1,14 @@
+C:\Users\nikit\Desktop\Мой проект\Client.exe.config
+C:\Users\nikit\Desktop\Мой проект\Client.pdb
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.AssemblyReference.cache
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.SuggestedBindingRedirects.cache
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.Auth.resources
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.ClientApp.resources
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.Properties.Resources.resources
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.GenerateResource.cache
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.CoreCompileInputs.cache
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.CopyComplete
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.pdb
+C:\Users\nikit\Desktop\Мой проект\Client.exe
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.exe
+E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.MessageWriter.resources
