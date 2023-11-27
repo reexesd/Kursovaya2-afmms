@@ -106,31 +106,6 @@ namespace Server
             });
         }
 
-        //private async Task StartServerAsync()
-        //{
-        //    _cancellationTokenSource = new CancellationTokenSource();
-        //    while (true)
-        //    {
-        //        using(NamedPipeServerStream serverStream = new NamedPipeServerStream("NewUsers", PipeDirection.In, NamedPipeServerStream.MaxAllowedServerInstances, PipeTransmissionMode.Message, PipeOptions.Asynchronous))
-        //        {
-        //            try
-        //            {
-        //                await serverStream.WaitForConnectionAsync(_cancellationTokenSource.Token);
-        //            }
-        //            catch
-        //            {
-        //                return;
-        //            }
-        //            using (StreamReader reader = new StreamReader(serverStream))
-        //            {
-        //                string command = reader.ReadLine();
-        //                if (command == "NewUser")
-        //                    AddNewUser();
-        //            }
-        //        }
-        //    }
-        //}
-
         private void UpdateElapsedTime_Tick(object sender, EventArgs e)
         {
             ElapsedTimeLabel.Text = $"Время работы: {_stopwatch.Elapsed:hh\\:mm\\:ss}";

@@ -38,12 +38,12 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.UserPicture = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.OpenMainMenuAnim = new System.Windows.Forms.Timer(this.components);
-            this.CloseMainMenuAnim = new System.Windows.Forms.Timer(this.components);
             this.UserPanel = new Client.UserPanel();
             this.SignOutLabel = new System.Windows.Forms.Label();
             this.UsernameLabel = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.OpenMainMenuAnim = new System.Windows.Forms.Timer(this.components);
+            this.CloseMainMenuAnim = new System.Windows.Forms.Timer(this.components);
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WriteMsgButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainMenuButton)).BeginInit();
@@ -77,6 +77,7 @@
             this.WriteMsgLabel.TabIndex = 3;
             this.WriteMsgLabel.Text = "Написать сообщение";
             this.WriteMsgLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.WriteMsgLabel.Click += new System.EventHandler(this.WriteMsgButton_Click);
             // 
             // WriteMsgButton
             // 
@@ -153,26 +154,6 @@
             this.panel3.Size = new System.Drawing.Size(644, 522);
             this.panel3.TabIndex = 2;
             // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.White;
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(644, 40);
-            this.panel4.TabIndex = 0;
-            // 
-            // OpenMainMenuAnim
-            // 
-            this.OpenMainMenuAnim.Interval = 5;
-            this.OpenMainMenuAnim.Tick += new System.EventHandler(this.OpenMainMenuAnim_Tick);
-            // 
-            // CloseMainMenuAnim
-            // 
-            this.CloseMainMenuAnim.Interval = 5;
-            this.CloseMainMenuAnim.Tick += new System.EventHandler(this.CloseMainMenuAnim_Tick);
-            // 
             // UserPanel
             // 
             this.UserPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -216,6 +197,26 @@
             this.UsernameLabel.Click += new System.EventHandler(this.UsernameLabel_Click);
             this.UsernameLabel.MouseEnter += new System.EventHandler(this.UsernameLabel_MouseEnter);
             this.UsernameLabel.MouseLeave += new System.EventHandler(this.UsernameLabel_MouseLeave);
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.White;
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(644, 40);
+            this.panel4.TabIndex = 0;
+            // 
+            // OpenMainMenuAnim
+            // 
+            this.OpenMainMenuAnim.Interval = 5;
+            this.OpenMainMenuAnim.Tick += new System.EventHandler(this.OpenMainMenuAnim_Tick);
+            // 
+            // CloseMainMenuAnim
+            // 
+            this.CloseMainMenuAnim.Interval = 5;
+            this.CloseMainMenuAnim.Tick += new System.EventHandler(this.CloseMainMenuAnim_Tick);
             // 
             // ClientApp
             // 

@@ -18,9 +18,10 @@ namespace Server
     {
         private static readonly string _registredUsersInfoPath = @"DB/RegistredUsers.json";
         private static List<User> _users = new List<User>();
-        public static event EventHandler NewUserAdded;
+        private static Dictionary<string,MailBox> _mailBoxes = new Dictionary<string, MailBox>();
         private static CancellationTokenSource _cancellationTokenSource;
         private static NamedPipeServerStream _serverStream;
+        public static event EventHandler NewUserAdded;
 
         static UsersController()
         {
@@ -39,6 +40,9 @@ namespace Server
             {
                 File.Create(needPath).Dispose();
             }
+            string fileContent = File.ReadAllText(_registredUsersInfoPath);
+
+            _users = JsonConvert.DeserializeObject<List<User>>(fileContent);
         }
 
         private static void OnNewUserAdded(EventArgs e)
@@ -48,11 +52,7 @@ namespace Server
 
         internal static List<User> GetUsersList()
         {
-            string fileContent = File.ReadAllText(_registredUsersInfoPath);
-
-            List<User> users = JsonConvert.DeserializeObject<List<User>>(fileContent);
-
-            return users;
+            return _users;
         }
 
         public static string GetNewUserInfo()
@@ -81,8 +81,6 @@ namespace Server
 
         public static async Task AddUserAsync(string username, string password)
         {
-            string userPath = string.Format(@"DB/{0}", username);
-            Directory.CreateDirectory(userPath);
             string fileContent = File.ReadAllText(_registredUsersInfoPath);
 
             username = username.ToLower();
@@ -90,9 +88,10 @@ namespace Server
             _users = JsonConvert.DeserializeObject<List<User>>(fileContent);
 
             User newUser = new User(username, password);
-            if (_users == null)
-                _users = new List<User>();
             _users.Add(newUser);
+
+            MailBox newMailBox = new MailBox(username);
+            _mailBoxes.Add(username, newMailBox);
 
             string newFileContent = JsonConvert.SerializeObject(_users, Formatting.Indented);
 

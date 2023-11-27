@@ -168,5 +168,26 @@
   <ItemGroup>
     <None Include="Resources\WriteMsg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextAlignRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextAlignLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextAlignCenter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnderlineStyle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItalicStyle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BoldStyle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Send.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

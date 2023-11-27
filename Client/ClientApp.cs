@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Server;
 
 namespace Client
 {
@@ -25,7 +26,7 @@ namespace Client
             UsernameLabel.Text = Settings.Default.Login;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
             if (!Settings.Default.AutoLogin)
             {
@@ -34,6 +35,23 @@ namespace Client
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
+            await CheckConnection(true);
+        }
+
+        private async Task CheckConnection(bool isFormLoading = false, bool closeIfException = false)
+        {
+            try
+            {
+                await UsersController.TryConnect();
+            }
+            catch
+            {
+                MessageBox.Show("Сервер не отвечает, попробуйте позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if(isFormLoading)
+                    MessageBox.Show("Сообщения не были обновлены, так как сервер не отвечает", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (closeIfException)
+                    Close();
+            }
         }
 
         private void UserPicture_Click(object sender, EventArgs e)

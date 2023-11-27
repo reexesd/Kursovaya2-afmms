@@ -11,3 +11,14 @@ E:\Visual studio\проекты\Курсач 2\Client\obj\Debug\Client.csproj.Co
 E:\Visual studio\проекты\Курсач 2\Client\obj\Debug\Client.csproj.CopyComplete
 E:\Visual studio\проекты\Курсач 2\Client\obj\Debug\Client.exe
 E:\Visual studio\проекты\Курсач 2\Client\obj\Debug\Client.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.csproj.AssemblyReference.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.csproj.SuggestedBindingRedirects.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.Auth.resources
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.ClientApp.resources
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.MessageWriter.resources
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.csproj.GenerateResource.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.csproj.CopyComplete
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.exe
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Debug\Client.pdb

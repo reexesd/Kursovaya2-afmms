@@ -10,3 +10,12 @@ E:\Visual studio\проекты\Курсач 2\Server\obj\Release\Server.csproj.
 E:\Visual studio\проекты\Курсач 2\Server\obj\Release\Server.csproj.CopyComplete
 E:\Visual studio\проекты\Курсач 2\Server\obj\Release\Server.exe
 E:\Visual studio\проекты\Курсач 2\Server\obj\Release\Server.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.AssemblyReference.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.SuggestedBindingRedirects.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.AdminScreen.resources
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.Properties.Resources.resources
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.GenerateResource.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.CoreCompileInputs.cache
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.CopyComplete
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.exe
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.pdb
