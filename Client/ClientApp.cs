@@ -9,6 +9,7 @@ namespace Client
 {
     public partial class ClientApp : Form
     {
+        private string _username;
         private readonly Image _userPictureNotClicked = Resources.UserIco;
         private readonly Image _userPictureClicked = Resources.UserIco_Clicked;
         private readonly Image _mainMenuPicture = Resources.MainMenu;
@@ -19,11 +20,12 @@ namespace Client
         private readonly int _mainMenuOpenedWidth = 140;
         private bool _mainMenuOpened = false;
 
+        public string Username { get { return _username; } }
+
         public ClientApp()
         {
             InitializeComponent();
             MainMenu.Width = _mainMenuClosedWidth;
-            UsernameLabel.Text = Settings.Default.Login;
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -32,6 +34,8 @@ namespace Client
             {
                 ShowAuth();
             }
+            _username = Settings.Default.Login;
+            UsernameLabel.Text = _username;
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
@@ -164,7 +168,7 @@ namespace Client
 
         private void WriteMsgButton_Click(object sender, EventArgs e)
         {
-            MessageWriter mw = new MessageWriter
+            MessageWriter mw = new MessageWriter(_username)
             {
                 StartPosition = FormStartPosition.CenterParent,
                 Size = new Size(Width - 100, Height - 100)

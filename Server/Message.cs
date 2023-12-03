@@ -8,12 +8,22 @@ using System.Threading.Tasks;
 namespace Server
 {
     [JsonObject(MemberSerialization.OptIn)]
-    internal class Message
+    public class Message
     {
+        public enum MessageType
+        {
+            Sent,
+            Recieved,
+            Draft
+        }
+        private MessageType _type;
         private readonly int _id;
         private readonly string _from;
-        private readonly string _to;
+        private readonly List<string> _to;
         private readonly string _content;
+
+        [JsonProperty("MessageType", Order = 5)]
+        public MessageType Type { get { return _type; } internal set { _type = value; } }
 
         [JsonProperty("id",Order = 1)]
         public int Id { get { return _id; } }
@@ -22,17 +32,19 @@ namespace Server
         public string From { get { return _from; } }
 
         [JsonProperty("To", Order = 3)]
-        public string To { get { return _to; } }
+        public List<string> To { get { return _to; } }
 
         [JsonProperty("Content", Order = 4)]
         public string Content { get { return _content; } }
 
-        public Message(string from, string to, string content)
+                                                                                                         
+        public Message(string from, List<string> to, string content, MessageType type)
         {
             _id = GetHashCode();
             _from = from;
             _to = to;
             _content = content;
+            _type = type;
         }
     }
 }

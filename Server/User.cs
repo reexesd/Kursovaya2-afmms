@@ -25,6 +25,7 @@ namespace Server
         public int MessageCount
         {
             get { return _messageCount; }
+            internal set { _messageCount = value; }
         }
 
         [JsonConstructor]

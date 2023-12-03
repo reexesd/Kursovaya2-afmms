@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Windows.Forms.VisualStyles;
 using Server;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.ComponentModel;
+using System.Runtime.Remoting.Channels;
 
 namespace Server
 {
@@ -20,18 +22,24 @@ namespace Server
         private CustomizedProgressBar _progressBar;
         private int _countOfMessagesInt = 0;
 
+        public new string Name
+        {
+            get { return _name.Text; }
+        }
+
         public UserInfo()
         {
             InitNewUser();
         }
-        
+
         public UserInfo(string name, int countOfMessages)
         {
-            Init(name, countOfMessages);   
+            Init(name, countOfMessages);
         }
 
         private void Init(string name, int countOfMessages)
         {
+            string path = Path.Combine("DB", name);
             _countOfMessagesInt = countOfMessages;
             BackColor = Color.LightGray;
             Dock = DockStyle.Top;
@@ -62,6 +70,7 @@ namespace Server
                 Location = new Point(offset, 50),
                 Size = new Size(width - offset * 2, 20),
                 Maximum = 4096,
+                Value = GetFolderSize(path),
                 CustomText = "Использовано МБ",
                 ProgressColor = Color.Aqua,
             };
@@ -91,7 +100,7 @@ namespace Server
             _countOfMessages = new Label
             {
                 AutoSize = true,
-                Text = string.Format("Количество сообщений: {0}",_countOfMessagesInt.ToString()),
+                Text = string.Format("Количество сообщений: {0}", _countOfMessagesInt.ToString()),
                 Location = new Point(0, 15),
                 Font = new Font("Times New Roman", 12, FontStyle.Bold)
             };
@@ -111,9 +120,26 @@ namespace Server
             Controls.Add(_progressBar);
         }
 
-        public void UpdateProgressBar()
+        private int GetFolderSize(string folderPath)
         {
+            long size = 0;
 
+            string[] files = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories);
+
+            foreach (string file in files)
+                size += new FileInfo(file).Length;
+
+            return (int)(size / 1024f);
+        }
+
+
+        public void UpdateUserInfo()
+        {
+            string username = _name.Text.Remove(0, 5);
+            User user = UsersController.GetUserInfo(username);
+            _countOfMessages.Text = string.Format("Количество сообщений: {0}", user.MessageCount.ToString());
+            _progressBar.Value = GetFolderSize(Path.Combine("DB", username));
+            this.Update();
         }
     }
 }

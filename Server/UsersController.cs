@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO.Pipes;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace Server
 {
@@ -21,7 +22,9 @@ namespace Server
         private static Dictionary<string,MailBox> _mailBoxes = new Dictionary<string, MailBox>();
         private static CancellationTokenSource _cancellationTokenSource;
         private static NamedPipeServerStream _serverStream;
+        private static List<User> _usersToUpdate;
         public static event EventHandler NewUserAdded;
+        internal static event EventHandler MessageSent;
 
         static UsersController()
         {
@@ -42,6 +45,13 @@ namespace Server
             }
             string fileContent = File.ReadAllText(_registredUsersInfoPath);
 
+            string[] directories = Directory.GetDirectories(needDirectory,"*@afmms.ru",SearchOption.TopDirectoryOnly);
+            for(int i = 0; i < directories.Length; i++)
+            {
+                directories[i] = directories[i].Remove(0, 3);
+                _mailBoxes.Add(directories[i], new MailBox(directories[i]));
+            }
+
             _users = JsonConvert.DeserializeObject<List<User>>(fileContent);
         }
 
@@ -50,9 +60,22 @@ namespace Server
             NewUserAdded?.Invoke(null, e);
         }
 
+        private static void OnMessageSent(EventArgs e)
+        {
+            MessageSent?.Invoke(null, e);
+        }
+
         internal static List<User> GetUsersList()
         {
             return _users;
+        }
+
+        internal static User GetUserInfo(string username)
+        {
+            string fileContent = File.ReadAllText(_registredUsersInfoPath);
+            _users = JsonConvert.DeserializeObject<List<User>>(fileContent);
+            User user = _users.Find(x => x.Username == username);
+            return user;
         }
 
         public static string GetNewUserInfo()
@@ -77,6 +100,29 @@ namespace Server
                     return true;
             }
             return false;
+        }
+
+        public static async Task SendMessage(Message msg) 
+        {
+            _usersToUpdate = new List<User>();
+            _mailBoxes[msg.From].AddMessage(msg);
+            _usersToUpdate.Add(_users.Find(x => x.Username == msg.From));
+            _users.Find(user => user.Username == msg.From).MessageCount++;
+            msg.Type = Message.MessageType.Recieved;
+            for(int i = 0; i < msg.To.Count; i++)
+            {
+                if (_mailBoxes.ContainsKey(msg.To[i]))
+                {
+                    _mailBoxes[msg.To[i]].AddMessage(msg);
+                    _users.Find(user => user.Username == msg.To[i]).MessageCount++;
+                    _usersToUpdate.Add(_users.Find(x => x.Username == msg.To[i]));
+                }
+            }
+            string newFileContent = JsonConvert.SerializeObject(_users, Formatting.Indented);
+
+            File.WriteAllText(_registredUsersInfoPath, newFileContent);
+
+            await SendCommandToServerAsync("Send Message");
         }
 
         public static async Task AddUserAsync(string username, string password)
@@ -151,6 +197,9 @@ namespace Server
                 {
                     case "New User Added":
                         OnNewUserAdded(EventArgs.Empty);
+                        break;
+                    case "Send Message":
+                        OnMessageSent(EventArgs.Empty);
                         break;
                     default:
                         break;
