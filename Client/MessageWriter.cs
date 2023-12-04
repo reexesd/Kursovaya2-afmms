@@ -150,17 +150,17 @@ namespace Client
                 ToInputErrorLabel.Text = "Не введено ни одного адреса в верном формате!";
                 return;
             }
-            Server.Message message = new Server.Message(_username, _recipientsList, MsgContentTB.Rtf, Server.Message.MessageType.Sent);
+            Server.Message message = new Server.Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, Server.Message.MessageType.Sent, DateTime.Now);
             try
             {
-                await UsersController.TryConnect();
+                await ServerController.TryConnect();
             }
             catch 
             {
                 MessageBox.Show("Сервер не отвечает, попробуйте отправить сообщение позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            await UsersController.SendMessage(message);
+            await ServerController.SendMessage(message);
             _sendButtonClicked = true;
             Close();
         }

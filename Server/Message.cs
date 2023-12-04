@@ -21,26 +21,43 @@ namespace Server
         private readonly string _from;
         private readonly List<string> _to;
         private readonly string _content;
+        private readonly DateTime _sendTime;
+        private DateTime _receiveTime;
+        private readonly string _theme;
 
-        [JsonProperty("MessageType", Order = 5)]
-        public MessageType Type { get { return _type; } internal set { _type = value; } }
-
-        [JsonProperty("id",Order = 1)]
+        [JsonProperty("id", Order = 1)]
         public int Id { get { return _id; } }
 
-        [JsonProperty("From", Order = 2)]
+        [JsonProperty("Send Time", Order = 2)]
+        public DateTime SendTime {  get { return _sendTime; } }
+
+        [JsonProperty("Receive Time", Order = 3)]
+        public DateTime ReceiveTime { get { return _receiveTime; } internal set { _receiveTime = value; } }
+
+        [JsonProperty("MessageType", Order = 4)]
+        public MessageType Type { get { return _type; } internal set { _type = value; } }
+
+        [JsonProperty("From", Order = 5)]
         public string From { get { return _from; } }
 
-        [JsonProperty("To", Order = 3)]
+        [JsonProperty("To", Order = 6)]
         public List<string> To { get { return _to; } }
 
-        [JsonProperty("Content", Order = 4)]
+        [JsonProperty("Theme", Order = 7)]
+        public string Theme { get { return _theme; } }
+
+        [JsonProperty("Content", Order = 8)]
         public string Content { get { return _content; } }
 
-                                                                                                         
-        public Message(string from, List<string> to, string content, MessageType type)
+        [JsonConstructor]
+        public Message(string from, List<string> to, string theme, string content, MessageType type, DateTime sendTime, int id = 0)
         {
-            _id = GetHashCode();
+            _theme = theme;
+            _sendTime = sendTime;
+            if(id ==0)
+                _id = GetHashCode();
+            else
+                _id = id;
             _from = from;
             _to = to;
             _content = content;

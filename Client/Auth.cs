@@ -140,7 +140,7 @@ namespace Client
             SetLoadingScreen();
             try
             {
-                await UsersController.TryConnect();
+                await ServerController.TryConnect();
             }
             catch 
             { 
@@ -148,7 +148,7 @@ namespace Client
                 return;
             }
             finally { _loading.Dispose(); }
-            await UsersController.AddUserAsync(username, password);
+            await ServerController.AddUserAsync(username, password);
             Settings.Default.AutoLogin = _rememberMe;
             Settings.Default.Login = username;
             Settings.Default.Password = password;
@@ -223,7 +223,7 @@ namespace Client
                     UsernameInputError.Text = "Адрес почтового ящика введен в неверном формате";
                     return;
                 }
-                if (_isRegistrationField && UsersController.IsUserExist(UsernameTB.Text))
+                if (_isRegistrationField && ServerController.IsUserExist(UsernameTB.Text))
                 {
                     UsernameInputError.Text = "Такой пользователь уже существует";
                     return;
@@ -270,12 +270,12 @@ namespace Client
             string username = UsernameTB.Text;
             string password = PasswordTB.Text;
 
-            if (UsersController.TryLogin(username, password))
+            if (ServerController.TryLogin(username, password))
             {
                 SetLoadingScreen();
                 try
                 {
-                    await UsersController.TryConnect();
+                    await ServerController.TryConnect();
                 }
                 catch
                 {

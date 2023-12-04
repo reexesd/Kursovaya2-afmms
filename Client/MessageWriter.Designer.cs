@@ -72,7 +72,7 @@
             // 
             this.ThemeTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ThemeTB.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ThemeTB.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ThemeTB.Location = new System.Drawing.Point(62, 49);
             this.ThemeTB.Name = "ThemeTB";
             this.ThemeTB.Size = new System.Drawing.Size(451, 21);

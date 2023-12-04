@@ -12,21 +12,25 @@ using System.Reflection;
 using System.IO.Pipes;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.Net.NetworkInformation;
 
 namespace Server
 {
-    public static class UsersController
+    public static class ServerController
     {
         private static readonly string _registredUsersInfoPath = @"DB/RegistredUsers.json";
         private static List<User> _users = new List<User>();
         private static Dictionary<string,MailBox> _mailBoxes = new Dictionary<string, MailBox>();
         private static CancellationTokenSource _cancellationTokenSource;
         private static NamedPipeServerStream _serverStream;
-        private static List<User> _usersToUpdate;
-        public static event EventHandler NewUserAdded;
-        internal static event EventHandler MessageSent;
+        internal static event EventHandler NewUserAdded;
+        internal static event EventHandler<Message> MessageSent;
+        internal static event EventHandler<User> NeedToUpdate;
+        internal static event EventHandler<Message> ProcessingStarted;
+        internal static event EventHandler<Message> ProcessingCompleted;
+        internal static event EventHandler ProcessingEnded;
 
-        static UsersController()
+        static ServerController()
         {
             InitFiles();
         }
@@ -55,14 +59,34 @@ namespace Server
             _users = JsonConvert.DeserializeObject<List<User>>(fileContent);
         }
 
+        private static void OnProcessingEnded(EventArgs e)
+        {
+            ProcessingEnded?.Invoke(null, e);
+        }
+
+        private static void OnProcessingStarted(Message message)
+        {
+            ProcessingStarted?.Invoke(null, message);
+        }
+
+        private static void OnProcessingCompleted(Message message)
+        {
+            ProcessingCompleted?.Invoke(null, message);
+        }
+
         private static void OnNewUserAdded(EventArgs e)
         {
             NewUserAdded?.Invoke(null, e);
         }
 
-        private static void OnMessageSent(EventArgs e)
+        private static void OnMessageSent(Message msg)
         {
-            MessageSent?.Invoke(null, e);
+            MessageSent?.Invoke(null, msg);
+        }
+
+        private static void OnNeedToUpdate(User user)
+        {
+            NeedToUpdate?.Invoke(null, user);
         }
 
         internal static List<User> GetUsersList()
@@ -104,25 +128,8 @@ namespace Server
 
         public static async Task SendMessage(Message msg) 
         {
-            _usersToUpdate = new List<User>();
-            _mailBoxes[msg.From].AddMessage(msg);
-            _usersToUpdate.Add(_users.Find(x => x.Username == msg.From));
-            _users.Find(user => user.Username == msg.From).MessageCount++;
-            msg.Type = Message.MessageType.Recieved;
-            for(int i = 0; i < msg.To.Count; i++)
-            {
-                if (_mailBoxes.ContainsKey(msg.To[i]))
-                {
-                    _mailBoxes[msg.To[i]].AddMessage(msg);
-                    _users.Find(user => user.Username == msg.To[i]).MessageCount++;
-                    _usersToUpdate.Add(_users.Find(x => x.Username == msg.To[i]));
-                }
-            }
-            string newFileContent = JsonConvert.SerializeObject(_users, Formatting.Indented);
-
-            File.WriteAllText(_registredUsersInfoPath, newFileContent);
-
-            await SendCommandToServerAsync("Send Message");
+            string messageToServer = JsonConvert.SerializeObject(msg, Formatting.Indented);
+            await SendCommandToServerAsync($"Send Message To Server\n{messageToServer}");
         }
 
         public static async Task AddUserAsync(string username, string password)
@@ -188,7 +195,7 @@ namespace Server
             }
         }
 
-        private static async Task ReceiveCommand(PipeStream pipeStream)
+        private static async Task ReceiveCommandAsync(PipeStream pipeStream)
         {
             using (StreamReader sr = new StreamReader(pipeStream))
             {
@@ -198,13 +205,54 @@ namespace Server
                     case "New User Added":
                         OnNewUserAdded(EventArgs.Empty);
                         break;
-                    case "Send Message":
-                        OnMessageSent(EventArgs.Empty);
+
+                    case "Send Message To Server":
+                        string receivedMessage = await sr.ReadToEndAsync();
+                        Message message = JsonConvert.DeserializeObject<Message>(receivedMessage);
+                        SendMsgAsync(message);
                         break;
+
                     default:
                         break;
                 }
             }
+        }
+
+        private async static void SendMsgAsync(Message messageToServer)
+        {
+            string newFileContent;
+            OnMessageSent(messageToServer);
+
+            messageToServer.Type = Message.MessageType.Recieved;
+            for (int i = 0; i < messageToServer.To.Count; i++)
+            {
+                OnProcessingStarted(messageToServer);
+                await Task.Delay(3000);
+                if (_mailBoxes.ContainsKey(messageToServer.To[i]))
+                {
+                    messageToServer.ReceiveTime = DateTime.Now;
+                    _mailBoxes[messageToServer.To[i]].AddMessage(messageToServer);
+
+                    User receiver = _users.Find(user => user.Username == messageToServer.To[i]);
+                    receiver.MessageCount++;
+
+                    newFileContent = JsonConvert.SerializeObject(_users, Formatting.Indented);
+
+                    File.WriteAllText(_registredUsersInfoPath, newFileContent);
+                    OnNeedToUpdate(receiver);
+                }
+                OnProcessingCompleted(messageToServer);
+                await Task.Delay(3000);
+                OnProcessingEnded(EventArgs.Empty);
+            }
+            _mailBoxes[messageToServer.From].AddMessage(messageToServer);
+            User sender = _users.Find(user => user.Username == messageToServer.From);
+            sender.MessageCount++;
+
+            newFileContent = JsonConvert.SerializeObject(_users, Formatting.Indented);
+            File.WriteAllText(_registredUsersInfoPath, newFileContent);
+
+            OnNeedToUpdate(sender);
         }
 
         public static void StopServer()
@@ -230,7 +278,7 @@ namespace Server
                     {
                         return;
                     }
-                    await Task.Run(() => ReceiveCommand(_serverStream));
+                    await Task.Run(() => ReceiveCommandAsync(_serverStream));
                 }
             }
         }

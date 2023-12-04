@@ -87,7 +87,7 @@
     <Compile Include="UserInfo.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UsersController.cs" />
+    <Compile Include="ServerController.cs" />
     <EmbeddedResource Include="AdminScreen.resx">
       <DependentUpon>AdminScreen.cs</DependentUpon>
     </EmbeddedResource>

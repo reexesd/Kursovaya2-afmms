@@ -9,7 +9,7 @@ namespace Client
 {
     public partial class ClientApp : Form
     {
-        private string _username;
+        public string _username;
         private readonly Image _userPictureNotClicked = Resources.UserIco;
         private readonly Image _userPictureClicked = Resources.UserIco_Clicked;
         private readonly Image _mainMenuPicture = Resources.MainMenu;
@@ -46,7 +46,7 @@ namespace Client
         {
             try
             {
-                await UsersController.TryConnect();
+                await ServerController.TryConnect();
             }
             catch
             {

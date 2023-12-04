@@ -15,7 +15,16 @@ namespace Server
         private string _sentMsgPath;
         private string _draftMsgPath;
 
-        private List<Message> messages = new List<Message>();
+        private List<Message> _messages = new List<Message>();
+        internal List<Message> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                _messages = value; 
+
+            }
+        }
 
         public MailBox(string username) 
         {
@@ -35,7 +44,7 @@ namespace Server
 
         public void AddMessage(Message msg)
         {
-            messages.Add(msg);
+            _messages.Add(msg);
             string path;
             if(msg.Type == Message.MessageType.Sent)
                 path = _sentMsgPath;

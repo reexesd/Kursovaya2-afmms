@@ -24,7 +24,12 @@ namespace Server
 
         public new string Name
         {
-            get { return _name.Text; }
+            get 
+            { 
+                string name = _name.Text;
+                name = name.Remove(0, 5);
+                return name;
+            }
         }
 
         public UserInfo()
@@ -92,7 +97,7 @@ namespace Server
             _name = new Label
             {
                 AutoSize = true,
-                Text = string.Format("Имя: {0}", UsersController.GetNewUserInfo()),
+                Text = string.Format("Имя: {0}", ServerController.GetNewUserInfo()),
                 Location = new Point(0, 0),
                 Font = new Font("Times New Roman", 12, FontStyle.Bold)
             };
@@ -136,7 +141,7 @@ namespace Server
         public void UpdateUserInfo()
         {
             string username = _name.Text.Remove(0, 5);
-            User user = UsersController.GetUserInfo(username);
+            User user = ServerController.GetUserInfo(username);
             _countOfMessages.Text = string.Format("Количество сообщений: {0}", user.MessageCount.ToString());
             _progressBar.Value = GetFolderSize(Path.Combine("DB", username));
             this.Update();
