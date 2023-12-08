@@ -37,6 +37,9 @@
             this.RegistredUsersLabelPanel = new System.Windows.Forms.Panel();
             this.RegistredUsersLabel = new System.Windows.Forms.Label();
             this.ServerStatusPanel = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ProcessingMessages = new System.Windows.Forms.DataGridView();
             this.Chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -47,10 +50,6 @@
             this.StartButton = new System.Windows.Forms.PictureBox();
             this.ServerStatus = new System.Windows.Forms.Label();
             this.UpdateElapsedTime = new System.Windows.Forms.Timer(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.ServerMemoryProgressBar = new Server.CustomizedProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
             this.SplitContainer.Panel1.SuspendLayout();
@@ -137,6 +136,38 @@
             this.ServerStatusPanel.Size = new System.Drawing.Size(904, 478);
             this.ServerStatusPanel.TabIndex = 2;
             // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(3, 267);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(119, 16);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Память сервера:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(3, 302);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(208, 16);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Обрабатываемые сообщения:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(3, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(218, 16);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "График загруженности сервера:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -189,9 +220,11 @@
             this.Chart.Legends.Add(legend1);
             this.Chart.Location = new System.Drawing.Point(6, 45);
             this.Chart.Name = "Chart";
+            series1.BorderWidth = 3;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
             series1.Legend = "Legend1";
+            series1.MarkerBorderWidth = 20;
             series1.Name = "Series1";
             this.Chart.Series.Add(series1);
             this.Chart.Size = new System.Drawing.Size(891, 197);
@@ -277,43 +310,15 @@
             this.UpdateElapsedTime.Interval = 1000;
             this.UpdateElapsedTime.Tick += new System.EventHandler(this.UpdateElapsedTime_Tick);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(3, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(218, 16);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "График загруженности сервера:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(3, 302);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(208, 16);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Обрабатываемые сообщения:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(3, 267);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(119, 16);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Память сервера:";
-            // 
             // ServerMemoryProgressBar
             // 
+            this.ServerMemoryProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ServerMemoryProgressBar.CustomText = "Использовано ГБ";
             this.ServerMemoryProgressBar.Location = new System.Drawing.Point(128, 264);
             this.ServerMemoryProgressBar.Maximum = 1024;
             this.ServerMemoryProgressBar.Name = "ServerMemoryProgressBar";
-            this.ServerMemoryProgressBar.ProgressColor = System.Drawing.Color.LightGreen;
+            this.ServerMemoryProgressBar.ProgressColor = System.Drawing.Color.Aqua;
             this.ServerMemoryProgressBar.Size = new System.Drawing.Size(769, 23);
             this.ServerMemoryProgressBar.TabIndex = 6;
             this.ServerMemoryProgressBar.TextColor = System.Drawing.Color.Black;
@@ -363,7 +368,6 @@
         private System.Windows.Forms.Label ElapsedTimeLabel;
         private System.Windows.Forms.Timer UpdateElapsedTime;
         private System.Windows.Forms.DataGridView ProcessingMessages;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;
         private CustomizedProgressBar ServerMemoryProgressBar;
         private System.Windows.Forms.Label label4;

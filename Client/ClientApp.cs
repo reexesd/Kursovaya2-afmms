@@ -28,6 +28,16 @@ namespace Client
             MainMenu.Width = _mainMenuClosedWidth;
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
+                return handleParam;
+            }
+        }
+
         private async void Form1_Load(object sender, EventArgs e)
         {
             if (!Settings.Default.AutoLogin)

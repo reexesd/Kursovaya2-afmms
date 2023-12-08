@@ -131,8 +131,8 @@
             // 
             // UserPicture
             // 
+            this.UserPicture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UserPicture.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UserPicture.Dock = System.Windows.Forms.DockStyle.Right;
             this.UserPicture.Image = ((System.Drawing.Image)(resources.GetObject("UserPicture.Image")));
             this.UserPicture.Location = new System.Drawing.Point(605, 0);
             this.UserPicture.Name = "UserPicture";

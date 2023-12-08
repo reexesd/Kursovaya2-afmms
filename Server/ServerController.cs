@@ -20,7 +20,7 @@ namespace Server
     {
         private static readonly string _registredUsersInfoPath = @"DB/RegistredUsers.json";
         private static List<User> _users = new List<User>();
-        private static Dictionary<string,MailBox> _mailBoxes = new Dictionary<string, MailBox>();
+        private static Dictionary<string, MailBox> _mailBoxes = new Dictionary<string, MailBox>();
         private static CancellationTokenSource _cancellationTokenSource;
         private static NamedPipeServerStream _serverStream;
         internal static event EventHandler NewUserAdded;
@@ -49,8 +49,8 @@ namespace Server
             }
             string fileContent = File.ReadAllText(_registredUsersInfoPath);
 
-            string[] directories = Directory.GetDirectories(needDirectory,"*@afmms.ru",SearchOption.TopDirectoryOnly);
-            for(int i = 0; i < directories.Length; i++)
+            string[] directories = Directory.GetDirectories(needDirectory, "*@afmms.ru", SearchOption.TopDirectoryOnly);
+            for (int i = 0; i < directories.Length; i++)
             {
                 directories[i] = directories[i].Remove(0, 3);
                 _mailBoxes.Add(directories[i], new MailBox(directories[i]));
@@ -126,7 +126,7 @@ namespace Server
             return false;
         }
 
-        public static async Task SendMessage(Message msg) 
+        public static async Task SendMessage(Message msg)
         {
             string messageToServer = JsonConvert.SerializeObject(msg, Formatting.Indented);
             await SendCommandToServerAsync($"Send Message To Server\n{messageToServer}");
@@ -224,11 +224,13 @@ namespace Server
             }
         }
 
+        private static SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+
         private async static void SendMsgAsync(Message messageToServer)
         {
             string newFileContent;
             OnMessageSent(messageToServer);
-
+            await _semaphoreSlim.WaitAsync();
             messageToServer.Type = Message.MessageType.Recieved;
             for (int i = 0; i < messageToServer.To.Count; i++)
             {
@@ -261,6 +263,7 @@ namespace Server
             File.WriteAllText(_registredUsersInfoPath, newFileContent);
 
             OnNeedToUpdate(sender);
+            _semaphoreSlim.Release();
         }
 
         public static void StopServer()
