@@ -17,5 +17,5 @@ C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.Prope
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.GenerateResource.cache
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.CoreCompileInputs.cache
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.CopyComplete
-C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.exe
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.exe

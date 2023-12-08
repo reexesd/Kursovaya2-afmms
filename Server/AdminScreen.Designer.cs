@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
             this.RegistredUsersPanel = new System.Windows.Forms.Panel();
             this.RegistredUsersLabelPanel = new System.Windows.Forms.Panel();
@@ -48,6 +48,10 @@
             this.ServerStatus = new System.Windows.Forms.Label();
             this.UpdateElapsedTime = new System.Windows.Forms.Timer(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ServerMemoryProgressBar = new Server.CustomizedProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
             this.SplitContainer.Panel1.SuspendLayout();
             this.SplitContainer.Panel2.SuspendLayout();
@@ -119,6 +123,10 @@
             // ServerStatusPanel
             // 
             this.ServerStatusPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ServerStatusPanel.Controls.Add(this.ServerMemoryProgressBar);
+            this.ServerStatusPanel.Controls.Add(this.label4);
+            this.ServerStatusPanel.Controls.Add(this.label3);
+            this.ServerStatusPanel.Controls.Add(this.label2);
             this.ServerStatusPanel.Controls.Add(this.label1);
             this.ServerStatusPanel.Controls.Add(this.ProcessingMessages);
             this.ServerStatusPanel.Controls.Add(this.Chart);
@@ -149,7 +157,7 @@
             this.ProcessingMessages.BackgroundColor = System.Drawing.Color.White;
             this.ProcessingMessages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ProcessingMessages.GridColor = System.Drawing.Color.Black;
-            this.ProcessingMessages.Location = new System.Drawing.Point(17, 321);
+            this.ProcessingMessages.Location = new System.Drawing.Point(6, 321);
             this.ProcessingMessages.Name = "ProcessingMessages";
             this.ProcessingMessages.ReadOnly = true;
             this.ProcessingMessages.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -159,32 +167,34 @@
             this.ProcessingMessages.ShowCellToolTips = false;
             this.ProcessingMessages.ShowEditingIcon = false;
             this.ProcessingMessages.ShowRowErrors = false;
-            this.ProcessingMessages.Size = new System.Drawing.Size(874, 150);
+            this.ProcessingMessages.Size = new System.Drawing.Size(891, 150);
             this.ProcessingMessages.TabIndex = 1;
             this.ProcessingMessages.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.ProcessingMessages_RowsAdded);
             this.ProcessingMessages.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.ProcessingMessages_RowsRemoved);
             // 
             // Chart
             // 
-            this.Chart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Chart.BackColor = System.Drawing.Color.Transparent;
             this.Chart.BorderlineColor = System.Drawing.Color.Transparent;
-            chartArea3.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.None;
-            chartArea3.BackColor = System.Drawing.Color.Transparent;
-            chartArea3.Name = "ChartArea1";
-            this.Chart.ChartAreas.Add(chartArea3);
-            legend3.Enabled = false;
-            legend3.HeaderSeparator = System.Windows.Forms.DataVisualization.Charting.LegendSeparatorStyle.Line;
-            legend3.Name = "Legend1";
-            this.Chart.Legends.Add(legend3);
-            this.Chart.Location = new System.Drawing.Point(-2, 124);
+            chartArea1.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.None;
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.Name = "ChartArea1";
+            this.Chart.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.HeaderSeparator = System.Windows.Forms.DataVisualization.Charting.LegendSeparatorStyle.Line;
+            legend1.Name = "Legend1";
+            this.Chart.Legends.Add(legend1);
+            this.Chart.Location = new System.Drawing.Point(6, 45);
             this.Chart.Name = "Chart";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.Chart.Series.Add(series3);
-            this.Chart.Size = new System.Drawing.Size(905, 197);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.Chart.Series.Add(series1);
+            this.Chart.Size = new System.Drawing.Size(891, 197);
             this.Chart.TabIndex = 0;
             this.Chart.TabStop = false;
             this.Chart.Text = "chart1";
@@ -267,6 +277,48 @@
             this.UpdateElapsedTime.Interval = 1000;
             this.UpdateElapsedTime.Tick += new System.EventHandler(this.UpdateElapsedTime_Tick);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(3, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(218, 16);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "График загруженности сервера:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(3, 302);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(208, 16);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Обрабатываемые сообщения:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(3, 267);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(119, 16);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Память сервера:";
+            // 
+            // ServerMemoryProgressBar
+            // 
+            this.ServerMemoryProgressBar.CustomText = "Использовано ГБ";
+            this.ServerMemoryProgressBar.Location = new System.Drawing.Point(128, 264);
+            this.ServerMemoryProgressBar.Maximum = 1024;
+            this.ServerMemoryProgressBar.Name = "ServerMemoryProgressBar";
+            this.ServerMemoryProgressBar.ProgressColor = System.Drawing.Color.LightGreen;
+            this.ServerMemoryProgressBar.Size = new System.Drawing.Size(769, 23);
+            this.ServerMemoryProgressBar.TabIndex = 6;
+            this.ServerMemoryProgressBar.TextColor = System.Drawing.Color.Black;
+            this.ServerMemoryProgressBar.TextFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            // 
             // AdminScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,8 +363,12 @@
         private System.Windows.Forms.Label ElapsedTimeLabel;
         private System.Windows.Forms.Timer UpdateElapsedTime;
         private System.Windows.Forms.DataGridView ProcessingMessages;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label1;
+        private CustomizedProgressBar ServerMemoryProgressBar;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -157,7 +157,7 @@
             // UserPanel
             // 
             this.UserPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.UserPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.UserPanel.BackColor = System.Drawing.Color.Silver;
             this.UserPanel.Controls.Add(this.SignOutLabel);
             this.UserPanel.Controls.Add(this.UsernameLabel);
             this.UserPanel.CornerRadius = 13;

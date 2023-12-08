@@ -132,7 +132,12 @@ namespace Server
             await SendCommandToServerAsync($"Send Message To Server\n{messageToServer}");
         }
 
-        public static async Task AddUserAsync(string username, string password)
+        public static async Task RegisterUserAsync(string username, string password)
+        {
+            await SendCommandToServerAsync($"New User Added\n{username}\n{password}");
+        }
+
+        private static void AddNewUser(string username, string password)
         {
             string fileContent = File.ReadAllText(_registredUsersInfoPath);
 
@@ -149,8 +154,6 @@ namespace Server
             string newFileContent = JsonConvert.SerializeObject(_users, Formatting.Indented);
 
             File.WriteAllText(_registredUsersInfoPath, newFileContent);
-
-            await SendCommandToServerAsync("New User Added");
         }
 
         public static async Task TryConnect()
@@ -203,6 +206,9 @@ namespace Server
                 switch (command)
                 {
                     case "New User Added":
+                        string username = await sr.ReadLineAsync();
+                        string password = await sr.ReadLineAsync();
+                        AddNewUser(username, password);
                         OnNewUserAdded(EventArgs.Empty);
                         break;
 
@@ -245,6 +251,8 @@ namespace Server
                 await Task.Delay(3000);
                 OnProcessingEnded(EventArgs.Empty);
             }
+
+            messageToServer.Type = Message.MessageType.Sent;
             _mailBoxes[messageToServer.From].AddMessage(messageToServer);
             User sender = _users.Find(user => user.Username == messageToServer.From);
             sender.MessageCount++;

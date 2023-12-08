@@ -148,7 +148,7 @@ namespace Client
                 return;
             }
             finally { _loading.Dispose(); }
-            await ServerController.AddUserAsync(username, password);
+            await ServerController.RegisterUserAsync(username, password);
             Settings.Default.AutoLogin = _rememberMe;
             Settings.Default.Login = username;
             Settings.Default.Password = password;

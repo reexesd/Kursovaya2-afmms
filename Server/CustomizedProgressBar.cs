@@ -12,9 +12,21 @@ namespace Server
     internal class CustomizedProgressBar : ProgressBar
     {
         [Description("Шрифт текста на элементе Progress bar"), Category("Text")]
-        public Font TextFont { get; set; } = new Font("TimesNewRoman", 12, FontStyle.Regular);
+        public Font TextFont {
+            get 
+            {
+                return _textFont;
+            }
+            set
+            {
+                _textFont = value;
+                Invalidate();
+            }
+        }
 
-        private SolidBrush _textBrush = (SolidBrush)Brushes.Black;
+        private Font _textFont = new Font("TimesNewRoman", 12, FontStyle.Regular);
+
+        private SolidBrush _textBrush = new SolidBrush(Color.Black);
         [Description("Цвет текста на элементе Progress bar"), Category("Text")]
         public Color TextColor
         {
@@ -77,6 +89,7 @@ namespace Server
 
         public CustomizedProgressBar()
         {
+            Value = Minimum;
             FixComponentBlinking();
         }
 
@@ -105,11 +118,12 @@ namespace Server
         {
             string text = TextToDraw;
 
-            SizeF len = g.MeasureString(text, TextFont);
+            SizeF len = g.MeasureString(text, _textFont);
 
             Point location = new Point(((Width / 2) - (int)len.Width / 2), ((Height / 2) - (int)len.Height / 2));
+            Font font = new Font(FontFamily.GenericSansSerif, 12);
 
-            g.DrawString(text, TextFont, (Brush)_textBrush, location);
+            g.DrawString(text, font, _textBrush, location);
         }
 
         protected override void OnPaint(PaintEventArgs e)
