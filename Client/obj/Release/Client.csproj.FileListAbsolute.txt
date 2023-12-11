@@ -1,5 +1,3 @@
-C:\Users\nikit\Desktop\Мой проект\Client.exe.config
-C:\Users\nikit\Desktop\Мой проект\Client.pdb
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.AssemblyReference.cache
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.SuggestedBindingRedirects.cache
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.Auth.resources
@@ -9,9 +7,11 @@ E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.CoreCompileInputs.cache
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.csproj.CopyComplete
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.pdb
-C:\Users\nikit\Desktop\Мой проект\Client.exe
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.exe
 E:\Visual studio\проекты\Курсач 2\Client\obj\Release\Client.MessageWriter.resources
+C:\Users\nikit\Desktop\Мой проект\Client.exe.config
+C:\Users\nikit\Desktop\Мой проект\Client.exe
+C:\Users\nikit\Desktop\Мой проект\Client.pdb
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Release\Client.csproj.AssemblyReference.cache
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Release\Client.csproj.SuggestedBindingRedirects.cache
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Client\obj\Release\Client.Auth.resources

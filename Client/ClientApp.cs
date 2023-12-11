@@ -61,7 +61,7 @@ namespace Client
             catch
             {
                 MessageBox.Show("Сервер не отвечает, попробуйте позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if(isFormLoading)
+                if (isFormLoading)
                     MessageBox.Show("Сообщения не были обновлены, так как сервер не отвечает", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (closeIfException)
                     Close();
@@ -78,6 +78,7 @@ namespace Client
             else
             {
                 UserPanel.Visible = true;
+                UserPanel.BringToFront();
                 UserPicture.Image = _userPictureClicked;
             }
         }

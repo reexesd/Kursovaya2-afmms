@@ -76,6 +76,9 @@
     <Compile Include="Auth.Designer.cs">
       <DependentUpon>Auth.cs</DependentUpon>
     </Compile>
+    <Compile Include="MailControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MessageWriter.cs">
       <SubType>Form</SubType>
     </Compile>

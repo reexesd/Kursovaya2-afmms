@@ -38,12 +38,13 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.UserPicture = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.OpenMainMenuAnim = new System.Windows.Forms.Timer(this.components);
+            this.CloseMainMenuAnim = new System.Windows.Forms.Timer(this.components);
+            this.mailControl2 = new Client.MailControl();
+            this.mailControl1 = new Client.MailControl();
             this.UserPanel = new Client.UserPanel();
             this.SignOutLabel = new System.Windows.Forms.Label();
             this.UsernameLabel = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.OpenMainMenuAnim = new System.Windows.Forms.Timer(this.components);
-            this.CloseMainMenuAnim = new System.Windows.Forms.Timer(this.components);
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WriteMsgButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainMenuButton)).BeginInit();
@@ -64,7 +65,7 @@
             this.MainMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(140, 561);
+            this.MainMenu.Size = new System.Drawing.Size(140, 573);
             this.MainMenu.TabIndex = 0;
             // 
             // WriteMsgLabel
@@ -126,7 +127,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(140, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(644, 39);
+            this.panel2.Size = new System.Drawing.Size(761, 39);
             this.panel2.TabIndex = 1;
             // 
             // UserPicture
@@ -134,7 +135,7 @@
             this.UserPicture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UserPicture.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserPicture.Image = ((System.Drawing.Image)(resources.GetObject("UserPicture.Image")));
-            this.UserPicture.Location = new System.Drawing.Point(605, 0);
+            this.UserPicture.Location = new System.Drawing.Point(722, 0);
             this.UserPicture.Name = "UserPicture";
             this.UserPicture.Size = new System.Drawing.Size(39, 39);
             this.UserPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -144,15 +145,66 @@
             // 
             // panel3
             // 
+            this.panel3.AutoScroll = true;
             this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.mailControl2);
+            this.panel3.Controls.Add(this.mailControl1);
             this.panel3.Controls.Add(this.UserPanel);
-            this.panel3.Controls.Add(this.panel4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.panel3.Location = new System.Drawing.Point(140, 39);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(644, 522);
+            this.panel3.Size = new System.Drawing.Size(761, 534);
             this.panel3.TabIndex = 2;
+            // 
+            // OpenMainMenuAnim
+            // 
+            this.OpenMainMenuAnim.Interval = 5;
+            this.OpenMainMenuAnim.Tick += new System.EventHandler(this.OpenMainMenuAnim_Tick);
+            // 
+            // CloseMainMenuAnim
+            // 
+            this.CloseMainMenuAnim.Interval = 5;
+            this.CloseMainMenuAnim.Tick += new System.EventHandler(this.CloseMainMenuAnim_Tick);
+            // 
+            // mailControl2
+            // 
+            this.mailControl2.BorderColor = System.Drawing.Color.LightGray;
+            this.mailControl2.BorderWidth = 1;
+            this.mailControl2.Content = "Content";
+            this.mailControl2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mailControl2.Date = new System.DateTime(2023, 12, 22, 0, 0, 0, 0);
+            this.mailControl2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mailControl2.From = "Admin";
+            this.mailControl2.IsBorderCreate = true;
+            this.mailControl2.Location = new System.Drawing.Point(0, 30);
+            this.mailControl2.MinimumSize = new System.Drawing.Size(15, 14);
+            this.mailControl2.Name = "mailControl2";
+            this.mailControl2.Opacity = 255;
+            this.mailControl2.Size = new System.Drawing.Size(759, 30);
+            this.mailControl2.TabIndex = 3;
+            this.mailControl2.Text = "mailControl2";
+            this.mailControl2.Theme = "Theme";
+            // 
+            // mailControl1
+            // 
+            this.mailControl1.BorderColor = System.Drawing.Color.LightGray;
+            this.mailControl1.BorderWidth = 1;
+            this.mailControl1.Content = "Content";
+            this.mailControl1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mailControl1.Date = new System.DateTime(2023, 12, 11, 0, 0, 0, 0);
+            this.mailControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mailControl1.From = "Admin";
+            this.mailControl1.IsBorderCreate = true;
+            this.mailControl1.Location = new System.Drawing.Point(0, 0);
+            this.mailControl1.MinimumSize = new System.Drawing.Size(15, 14);
+            this.mailControl1.Name = "mailControl1";
+            this.mailControl1.Opacity = 255;
+            this.mailControl1.Size = new System.Drawing.Size(759, 30);
+            this.mailControl1.TabIndex = 2;
+            this.mailControl1.Text = "mailControl1";
+            this.mailControl1.Theme = "Theme";
             // 
             // UserPanel
             // 
@@ -161,7 +213,7 @@
             this.UserPanel.Controls.Add(this.SignOutLabel);
             this.UserPanel.Controls.Add(this.UsernameLabel);
             this.UserPanel.CornerRadius = 13;
-            this.UserPanel.Location = new System.Drawing.Point(487, 0);
+            this.UserPanel.Location = new System.Drawing.Point(602, 0);
             this.UserPanel.Name = "UserPanel";
             this.UserPanel.PaddingP = 10;
             this.UserPanel.Size = new System.Drawing.Size(157, 87);
@@ -198,31 +250,11 @@
             this.UsernameLabel.MouseEnter += new System.EventHandler(this.UsernameLabel_MouseEnter);
             this.UsernameLabel.MouseLeave += new System.EventHandler(this.UsernameLabel_MouseLeave);
             // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.White;
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(644, 40);
-            this.panel4.TabIndex = 0;
-            // 
-            // OpenMainMenuAnim
-            // 
-            this.OpenMainMenuAnim.Interval = 5;
-            this.OpenMainMenuAnim.Tick += new System.EventHandler(this.OpenMainMenuAnim_Tick);
-            // 
-            // CloseMainMenuAnim
-            // 
-            this.CloseMainMenuAnim.Interval = 5;
-            this.CloseMainMenuAnim.Tick += new System.EventHandler(this.CloseMainMenuAnim_Tick);
-            // 
             // ClientApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(901, 573);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.MainMenu);
@@ -247,7 +279,6 @@
         private System.Windows.Forms.Panel MainMenu;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.PictureBox UserPicture;
         private System.Windows.Forms.Label UsernameLabel;
         private System.Windows.Forms.Label SignOutLabel;
@@ -258,6 +289,8 @@
         private System.Windows.Forms.Label MainMenuLabel;
         private System.Windows.Forms.PictureBox WriteMsgButton;
         private System.Windows.Forms.Label WriteMsgLabel;
+        private MailControl mailControl1;
+        private MailControl mailControl2;
     }
 }
 
