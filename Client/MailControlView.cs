@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Server;
 using Message = Server.Message;
 
@@ -24,46 +27,78 @@ namespace Client
         private CheckBox _checkBox;
         private readonly Message _message;
 
-        private readonly Font _fromFont = new Font("Arial", 10, FontStyle.Bold);
+        private readonly Font _fromFont = new Font("Arial", 9.75f, FontStyle.Bold);
+        private Rectangle _fromRect;
         private string _from = "Admin";
         private Point _fromLocation;
-        private float _maxFromWidth;
 
-        private readonly Font _themeFont = new Font("Arial", 10, FontStyle.Bold);
+        private readonly Font _themeFont = new Font("Arial", 9.75f, FontStyle.Bold);
+        private Rectangle _themeRect;
         private string _theme = "Theme";
         private Point _themeLocation;
 
-        private readonly Font _contentFont = new Font("Arial", 10, FontStyle.Regular);
+        private readonly Font _contentFont = new Font("Arial", 9.75f, FontStyle.Regular);
+        private Rectangle _contentRect;
         private string _content = "Content";
 
-        private readonly Font _dateFont = new Font("Arial", 10, FontStyle.Bold);
-        private Point _dateLocation;
-        private DateTime _date = DateTime.Today;
+        private string _contentRtf;
 
-        public CheckBox CheckBox
+        private readonly Font _dateFont = new Font("Arial", 9.75f, FontStyle.Bold);
+        private Point _dateLocation;
+        private DateTime _receiveDate = DateTime.Now;
+        private DateTime _sendDate = DateTime.Now;
+
+        public bool IsSelected
         {
-            get { return _checkBox; }
+            get
+            {
+                if(_checkBox.Visible)
+                    return _checkBox.Checked;
+                else
+                    return false;
+            }
         }
 
-        private float MaxFromWidth
+        protected int FromWidth
         {
             get 
             {
-                _maxFromWidth = Width * 0.1f;
-                return _maxFromWidth; 
+                return (int)(Width * 0.15);
+            }
+        }
+
+        public new Rectangle ClientRectangle
+        {
+            get
+            {
+                return new Rectangle(-1, -1, Width + 1, Height + 1);
             }
         }
 
         [Description("Дата получения сообщения"), Category("Appearance")]
-        public DateTime Date
+        public DateTime ReceiveDate
         {
             get
             {
-                return _date;
+                return _receiveDate;
             }
             set
             {
-                _date = value;
+                _receiveDate = value;
+                Invalidate();
+            }
+        }
+
+        [Description("Дата отправки сообщения"), Category("Appearance")]
+        public DateTime SendDate
+        {
+            get
+            {
+                return _sendDate;
+            }
+            set
+            {
+                _sendDate = value;
                 Invalidate();
             }
         }
@@ -171,6 +206,25 @@ namespace Client
             }
         }
 
+        [Description("Текст сообщения в формате rtf"), Category("Appearance")]
+        public string ContentRtf
+        {
+            get
+            {
+                return _contentRtf;
+            }
+            set
+            {
+                _contentRtf = value;
+                Invalidate();
+            }
+        }
+
+        [Description("Получатель"), Category("Appearance")]
+        public string To { get; set; } = "ad@afmms.ru";
+
+        private readonly StringFormat _componentsFormat = StringFormat.GenericTypographic;
+
         public MailControl()
         {
             Init();
@@ -184,28 +238,34 @@ namespace Client
             From = _message.From;
             Theme = _message.Theme;
             Content = _message.Content;
-            Date = _message.ReceiveTime;
+            ContentRtf = _message.ContentRtf;
+            ReceiveDate = _message.ReceiveTime;
+            SendDate = _message.SendTime;
+
+            foreach (var to in _message.To)
+                To += $"{to}, ";
+            To = To.TrimEnd(',', ' ');
         }
 
         private void Init()
         {
             InitStyle();
+
             InitCheckBox();
-            InitFrom();
-            InitTheme();
 
+            Size = new Size(400, 30);
             Cursor = Cursors.Hand;
-            Dock = DockStyle.Top;
-            Height = 30;
+            MinimumSize = new Size(100, 20);
 
-            _checkBox.CheckedChanged += _checkBox_CheckedChanged;
+            _checkBox.CheckedChanged += CheckBox_CheckedChanged;
             _checkBox.MouseEnter += MailControl_MouseEnter;
             _checkBox.MouseLeave += MailControl_MouseLeave;
             MouseEnter += MailControl_MouseEnter;
             MouseLeave += MailControl_MouseLeave;
+            Click += MailControl_Click;
         }
 
-        private void _checkBox_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (_checkBox.Checked)
                 BackColor = Color.FromArgb(Opacity, 194, 219, 255);
@@ -213,54 +273,70 @@ namespace Client
                 BackColor = Color.Transparent;
         }
 
-        private void _checkBox_MouseLeave(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void MailControl_MouseLeave(object sender, EventArgs e)
         {
             _isMouseOver = false;
-            Invalidate();
+            if (!_isMailOpened)
+                Invalidate();
         }
 
         private void MailControl_MouseEnter(object sender, EventArgs e)
         {
             _isMouseOver = true;
-            Invalidate();
-        }
-
-        private void InitTheme()
-        {
-            _themeLocation = new Point(_fromLocation.X + (int)_maxFromWidth + 5, _checkBox.Location.Y - 2);
-        }
-
-        private void InitFrom()
-        {
-            _fromLocation = new Point(_checkBox.Location.X + _checkBox.Width + 3, _checkBox.Location.Y - 2);
+            if (!_isMailOpened)
+                Invalidate();
         }
 
         private void InitStyle()
         {
             SetStyle(ControlStyles.UserPaint
+                | ControlStyles.OptimizedDoubleBuffer
                 | ControlStyles.AllPaintingInWmPaint
                 | ControlStyles.SupportsTransparentBackColor
                 | ControlStyles.Opaque, true);
+
+            _componentsFormat.FormatFlags = StringFormatFlags.FitBlackBox | StringFormatFlags.LineLimit;
+            _componentsFormat.Alignment = StringAlignment.Near;
+            _componentsFormat.LineAlignment = StringAlignment.Center;
+            _componentsFormat.Trimming = StringTrimming.EllipsisCharacter;
+
         }
 
         private void InitCheckBox()
         {
             _checkBox = new CheckBox
             {
+                Text = string.Empty,
+                Size = new Size(14, 14),
                 AutoSize = true,
                 Cursor = Cursors.Hand,
                 BackColor = Color.Transparent,
-                Text = string.Empty
+                Anchor = AnchorStyles.Left
             };
-            _checkBox.Location = new Point(5, Size.Height / 2 - _checkBox.Height / 2);
+            _checkBox.Location = new Point(5, (Height - _checkBox.Height) / 2);
             Controls.Add(_checkBox);
-            MinimumSize = _checkBox.Size;
-            Size = new Size(400, 40);
+        }
+
+        private void InitContentTB()
+        {
+            _contentTb = new RichTextBox()
+            {
+                Text = Content,
+                ReadOnly = true,
+                Location = new Point(10, _opndFromRect.Y + _opndFromRect.Height),
+                Size = new Size(Width - 10 * 2, Height - _opndFromLocation.Y - 30),
+                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom,
+                Font = new Font("Arial", 9),
+                TabStop = false,
+                TabIndex = 0,
+            };
+
+            if(_contentTb.Size.Height < 200)
+            {
+                Height += 200;
+            }
+
+            Controls.Add(_contentTb);
         }
 
         protected override CreateParams CreateParams
@@ -275,119 +351,113 @@ namespace Client
 
         protected override void OnSizeChanged(EventArgs e)
         {
-            _checkBox.Location = new Point(5, Size.Height / 2 - _checkBox.Height / 2);
+            base.OnSizeChanged(e);
+
             _fromLocation = new Point(_checkBox.Location.X + _checkBox.Width + 3, _checkBox.Location.Y - 2);
-            _themeLocation = new Point(_fromLocation.X + (int)MaxFromWidth + 5, _checkBox.Location.Y - 2);
+
+            _themeLocation = new Point(_fromLocation.X + FromWidth, _checkBox.Location.Y - 2);
+
+            if (_isMailOpened && Height < Parent.Height)
+                Size = Parent.Size;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override async void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+            g.SetClip(ClientRectangle);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bicubic;
 
             DrawBase(g);
-            DrawMessageComponents(g);
 
-            if (_isMouseOver)
+            if (!_isMailOpened)
             {
-                DrawShadows(g);
+                DrawMessageComponents(g);
+
+                if (_isMouseOver)
+                    DrawShadows(g);
             }
-        }
-
-        private string TrimStringForMaxWidtgh(string text, Font font, Graphics g, float maxWidth)
-        {
-            float currentWidth = g.MeasureString(text, font).Width;
-            int charactersToRemove = 0;
-            string trimmedText = text;
-
-            while (currentWidth > maxWidth && charactersToRemove < text.Length)
+            else
             {
-                charactersToRemove++;
-                trimmedText = text.Remove(text.Length - charactersToRemove);
-                trimmedText += "...";
-                currentWidth = g.MeasureString(trimmedText, font).Width;
+                await DrawOpenedMessage(g);
             }
-
-            return trimmedText;
         }
 
         private void DrawMessageComponents(Graphics graphics)
         {
-            using(Brush textBrush = new SolidBrush(Color.FromArgb(Opacity, Color.Black)))
-            {
-                DrawFrom(graphics, textBrush);
+            DrawFrom(graphics);
 
-                DrawThemeAndContent(graphics, textBrush);
+            DrawTheme(graphics);
 
-                _dateLocation = new Point(Width - 50, _checkBox.Location.Y - 2);
-                string date = Date.ToString("dd MMM");
+            DrawContent(graphics);
+
+            DrawDate(graphics);
+        }
+
+        private void DrawDate(Graphics graphics)
+        {
+            _dateLocation = new Point(Width - 50, _checkBox.Location.Y - 2);
+
+            string date = ReceiveDate.ToString("dd MMM");
+
+            using(Brush textBrush = new SolidBrush(Color.Black))
                 graphics.DrawString(date, _dateFont, textBrush, _dateLocation);
-            }
         }
 
-        private void DrawContent(Graphics graphics, Brush brush, float themeWidth)
+        private void DrawContent(Graphics graphics)
         {
-            Point contentLocation = new Point(_themeLocation.X + (int)themeWidth, _checkBox.Location.Y - 2);
-            string textToDraw = Content;
-            float textToDrawWidth = graphics.MeasureString(_content, _themeFont).Width;
-            float remainingWidth = Width - contentLocation.X - 50;
+            int themeWidth = (int)graphics.MeasureString(Theme, _themeFont).Width;
 
-            if (textToDrawWidth > remainingWidth)
-                textToDraw = TrimStringForMaxWidtgh(textToDraw, _contentFont, graphics, remainingWidth);
-
-            graphics.DrawString(textToDraw, _contentFont, brush, contentLocation);
-        }
-
-        private void DrawThemeAndContent(Graphics graphics, Brush brush)
-        {
-            string textToDraw = $"{Theme} - ";
-            float textToDrawWidth = graphics.MeasureString(textToDraw, _themeFont).Width;
-            float remainingWidth = Width - _themeLocation.X - 50;
-
-            if (textToDrawWidth > remainingWidth)
-            {
-                textToDraw = TrimStringForMaxWidtgh(textToDraw, _themeFont, graphics, remainingWidth);
-                graphics.DrawString(textToDraw, _themeFont, brush, _themeLocation);
+            if (themeWidth > _themeRect.Width)
                 return;
-            }
 
-            graphics.DrawString(textToDraw, _themeFont, brush, _themeLocation);
+            string textToDraw = $"-  {Content}";
 
-            brush = new SolidBrush(Color.FromArgb(Opacity, 116, 116, 118));
-            DrawContent(graphics, brush, textToDrawWidth);
+            _contentRect = new Rectangle(_themeRect.X + themeWidth, _themeRect.Y, _themeRect.Width - themeWidth, _themeRect.Height);
+
+            using (Brush textBrush = new SolidBrush(Color.DimGray))
+                graphics.DrawString(textToDraw, _contentFont, textBrush, _contentRect,_componentsFormat);
         }
 
-        private void DrawFrom(Graphics graphics, Brush brush)
+        private void DrawTheme(Graphics graphics)
+        {
+            string textToDraw = Theme;
+
+            _themeRect = new Rectangle(_themeLocation.X, _themeLocation.Y, Width - _themeLocation.X - 55, _fromRect.Height);
+
+            using (Brush textBrush = new SolidBrush(Color.Black))
+                graphics.DrawString(textToDraw, _themeFont, textBrush, _themeRect, _componentsFormat);
+        }
+
+        private void DrawFrom(Graphics graphics)
         {
             string textToDraw = From.Replace("@afmms.ru", string.Empty);
-            float textToDrawWidth = graphics.MeasureString(textToDraw, _fromFont).Width;
-
-            if (textToDrawWidth > MaxFromWidth)
-                textToDraw = TrimStringForMaxWidtgh(textToDraw, _fromFont, graphics, MaxFromWidth);
-
-            graphics.DrawString(textToDraw, _fromFont, brush, _fromLocation);
+            _fromRect = new Rectangle(_fromLocation.X, _fromLocation.Y, FromWidth, (int)_fromFont.GetHeight() + 3);
+            
+            using(Brush textBrush = new SolidBrush(Color.Black))
+                graphics.DrawString(textToDraw, _fromFont, textBrush, _fromRect, _componentsFormat);
         }
 
         private void DrawBase(Graphics g)
         {
-            Rectangle rect = new Rectangle(new Point(0, 0), Size);
             Color color = Color.FromArgb(Opacity, BackColor);
 
             using (Brush baseBrush = new SolidBrush(color))
-                g.FillRectangle(baseBrush, rect);
+                g.FillRectangle(baseBrush, ClientRectangle);
 
             if (_isBorderCreate)
             {
                 DrawBorder(g, _borderWidth);
             }
         }
-        
+
         private void DrawShadows(Graphics g)
         {
-            DrawBorder(g, 1, Color.FromArgb(140,140,140));
+            DrawBorder(g, 1, Color.FromArgb(140, 140, 140));
 
             using (Pen shadowPen = new Pen(Color.FromArgb(180, 180, 180), 1))
-                g.DrawLine(shadowPen,0,Height - 1, Width, Height - 1);
+                g.DrawLine(shadowPen, 0, Height - 1, Width, Height - 1);
 
             using (Pen shadowPen = new Pen(Color.FromArgb(200, 180, 180, 180), 1))
                 g.DrawLine(shadowPen, 0, Height - 2, Width, Height - 2);
@@ -401,10 +471,10 @@ namespace Client
 
         private void DrawBorder(Graphics g, int width)
         {
-            Rectangle rect = new Rectangle(new Point(0, 0), Size);
+            width += 2;
             Color color = Color.FromArgb(Opacity, BorderColor);
             using (Pen borderPen = new Pen(color, width))
-                g.DrawRectangle(borderPen, 0, 0, rect.Width - 1, rect.Height - 1);
+                g.DrawRectangle(borderPen, ClientRectangle);
         }
 
         private void DrawBorder(Graphics g, int width, Color color)

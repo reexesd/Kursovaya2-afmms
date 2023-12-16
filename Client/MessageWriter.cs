@@ -150,7 +150,7 @@ namespace Client
                 ToInputErrorLabel.Text = "Не введено ни одного адреса в верном формате!";
                 return;
             }
-            Server.Message message = new Server.Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, Server.Message.MessageType.Sent, DateTime.Now);
+            Server.Message message = new Server.Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, MsgContentTB.Text, Server.Message.MessageType.Sent, DateTime.Now);
             try
             {
                 await ServerController.TryConnect();

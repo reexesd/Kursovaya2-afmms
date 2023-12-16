@@ -20,10 +20,11 @@ namespace Server
         private readonly int _id;
         private readonly string _from;
         private readonly List<string> _to;
-        private readonly string _content;
+        private readonly string _contentRtf;
         private readonly DateTime _sendTime;
         private DateTime _receiveTime;
         private readonly string _theme;
+        private readonly string _content;
 
         [JsonProperty("id", Order = 1)]
         public int Id { get { return _id; } }
@@ -46,11 +47,14 @@ namespace Server
         [JsonProperty("Theme", Order = 7)]
         public string Theme { get { return _theme; } }
 
-        [JsonProperty("Content", Order = 8)]
+        [JsonProperty("ContentRtf", Order = 8)]
+        public string ContentRtf { get { return _contentRtf; } }
+
+        [JsonProperty("Content", Order = 9)]
         public string Content { get { return _content; } }
 
         [JsonConstructor]
-        public Message(string from, List<string> to, string theme, string content, MessageType type, DateTime sendTime, int id = 0)
+        public Message(string from, List<string> to, string theme, string contentRtf, string content, MessageType type, DateTime sendTime, int id = 0)
         {
             _theme = theme;
             _sendTime = sendTime;
@@ -60,8 +64,9 @@ namespace Server
                 _id = id;
             _from = from;
             _to = to;
-            _content = content;
+            _contentRtf = contentRtf;
             _type = type;
+            _content = content;
         }
     }
 }

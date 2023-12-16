@@ -76,7 +76,10 @@
     <Compile Include="Auth.Designer.cs">
       <DependentUpon>Auth.cs</DependentUpon>
     </Compile>
-    <Compile Include="MailControl.cs">
+    <Compile Include="MailControlFunc.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MailControlView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MessageWriter.cs">
@@ -163,15 +166,6 @@
     <None Include="Resources\MainMenu.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MainMenuClicked.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WriteMsgClicked.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WriteMsg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\TextAlignRight.png" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +185,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Send.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WriteMsg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WriteMsgClicked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MainMenuClicked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReceivedMessagesImgClicked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReceivedMessagesImg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SentMessagesImg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SentMessagesImgClicked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DraftMessagesImg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DraftMessagesImgClicked.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

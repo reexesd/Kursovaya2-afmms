@@ -83,6 +83,26 @@ namespace Client.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DraftMessagesImg {
+            get {
+                object obj = ResourceManager.GetObject("DraftMessagesImg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DraftMessagesImgClicked {
+            get {
+                object obj = ResourceManager.GetObject("DraftMessagesImgClicked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap hiden {
             get {
                 object obj = ResourceManager.GetObject("hiden", resourceCulture);
@@ -143,9 +163,49 @@ namespace Client.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ReceivedMessagesImg {
+            get {
+                object obj = ResourceManager.GetObject("ReceivedMessagesImg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ReceivedMessagesImgClicked {
+            get {
+                object obj = ResourceManager.GetObject("ReceivedMessagesImgClicked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Send {
             get {
                 object obj = ResourceManager.GetObject("Send", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SentMessagesImg {
+            get {
+                object obj = ResourceManager.GetObject("SentMessagesImg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SentMessagesImgClicked {
+            get {
+                object obj = ResourceManager.GetObject("SentMessagesImgClicked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

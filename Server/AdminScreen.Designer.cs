@@ -37,6 +37,7 @@
             this.RegistredUsersLabelPanel = new System.Windows.Forms.Panel();
             this.RegistredUsersLabel = new System.Windows.Forms.Label();
             this.ServerStatusPanel = new System.Windows.Forms.Panel();
+            this.ServerMemoryProgressBar = new Server.CustomizedProgressBar();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,7 +51,6 @@
             this.StartButton = new System.Windows.Forms.PictureBox();
             this.ServerStatus = new System.Windows.Forms.Label();
             this.UpdateElapsedTime = new System.Windows.Forms.Timer(this.components);
-            this.ServerMemoryProgressBar = new Server.CustomizedProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
             this.SplitContainer.Panel1.SuspendLayout();
             this.SplitContainer.Panel2.SuspendLayout();
@@ -135,6 +135,20 @@
             this.ServerStatusPanel.Name = "ServerStatusPanel";
             this.ServerStatusPanel.Size = new System.Drawing.Size(904, 478);
             this.ServerStatusPanel.TabIndex = 2;
+            // 
+            // ServerMemoryProgressBar
+            // 
+            this.ServerMemoryProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ServerMemoryProgressBar.CustomText = "Использовано ГБ";
+            this.ServerMemoryProgressBar.Location = new System.Drawing.Point(128, 264);
+            this.ServerMemoryProgressBar.Maximum = 1024;
+            this.ServerMemoryProgressBar.Name = "ServerMemoryProgressBar";
+            this.ServerMemoryProgressBar.ProgressColor = System.Drawing.Color.Aqua;
+            this.ServerMemoryProgressBar.Size = new System.Drawing.Size(769, 23);
+            this.ServerMemoryProgressBar.TabIndex = 6;
+            this.ServerMemoryProgressBar.TextColor = System.Drawing.Color.Black;
+            this.ServerMemoryProgressBar.TextFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             // 
             // label4
             // 
@@ -309,20 +323,6 @@
             // 
             this.UpdateElapsedTime.Interval = 1000;
             this.UpdateElapsedTime.Tick += new System.EventHandler(this.UpdateElapsedTime_Tick);
-            // 
-            // ServerMemoryProgressBar
-            // 
-            this.ServerMemoryProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ServerMemoryProgressBar.CustomText = "Использовано ГБ";
-            this.ServerMemoryProgressBar.Location = new System.Drawing.Point(128, 264);
-            this.ServerMemoryProgressBar.Maximum = 1024;
-            this.ServerMemoryProgressBar.Name = "ServerMemoryProgressBar";
-            this.ServerMemoryProgressBar.ProgressColor = System.Drawing.Color.Aqua;
-            this.ServerMemoryProgressBar.Size = new System.Drawing.Size(769, 23);
-            this.ServerMemoryProgressBar.TabIndex = 6;
-            this.ServerMemoryProgressBar.TextColor = System.Drawing.Color.Black;
-            this.ServerMemoryProgressBar.TextFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             // 
             // AdminScreen
             // 

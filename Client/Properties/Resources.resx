@@ -142,9 +142,6 @@
   <data name="BoldStyle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BoldStyle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WriteMsg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WriteMsg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="UserIco_Clicked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UserIco_Clicked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -157,9 +154,6 @@
   <data name="UserIco" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UserIco.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WriteMsgClicked" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WriteMsgClicked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="TextAlignRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TextAlignRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -168,5 +162,29 @@
   </data>
   <data name="Send" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Send.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WriteMsg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WriteMsg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WriteMsgClicked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WriteMsgClicked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReceivedMessagesImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReceivedMessagesImg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReceivedMessagesImgClicked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReceivedMessagesImgClicked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DraftMessagesImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DraftMessagesImg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DraftMessagesImgClicked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DraftMessagesImgClicked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SentMessagesImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SentMessagesImg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SentMessagesImgClicked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SentMessagesImgClicked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

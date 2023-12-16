@@ -4,18 +4,27 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Server;
+using System.Reflection;
 
 namespace Client
 {
     public partial class ClientApp : Form
     {
         public string _username;
+
         private readonly Image _userPictureNotClicked = Resources.UserIco;
         private readonly Image _userPictureClicked = Resources.UserIco_Clicked;
         private readonly Image _mainMenuPicture = Resources.MainMenu;
         private readonly Image _mainMenuClickedPicture = Resources.MainMenuClicked;
         private readonly Image _writeMsgPicture = Resources.WriteMsg;
         private readonly Image _writeMsgClickedPicture = Resources.WriteMsgClicked;
+        private readonly Image _receivedMessagesPicture = Resources.ReceivedMessagesImg;
+        private readonly Image _receivedMessagesClickedPicture = Resources.ReceivedMessagesImgClicked;
+        private readonly Image _sentMessagesPicture = Resources.SentMessagesImg;
+        private readonly Image _sentMessagesClickedPicture = Resources.SentMessagesImgClicked;
+        private readonly Image _draftMessagesPicture = Resources.DraftMessagesImg;
+        private readonly Image _draftMessagesClickedPicture = Resources.DraftMessagesImgClicked;
+
         private readonly int _mainMenuClosedWidth = 40;
         private readonly int _mainMenuOpenedWidth = 140;
         private bool _mainMenuOpened = false;
@@ -26,6 +35,9 @@ namespace Client
         {
             InitializeComponent();
             MainMenu.Width = _mainMenuClosedWidth;
+            Tabs.Appearance = TabAppearance.FlatButtons;
+            Tabs.ItemSize = new Size(0, 1);
+            Tabs.SizeMode = TabSizeMode.Fixed;
         }
 
         protected override CreateParams CreateParams
@@ -145,14 +157,14 @@ namespace Client
 
         private void OpenMainMenuAnim_Tick(object sender, EventArgs e)
         {
-            MainMenu.Width += 5;
+            MainMenu.Width += 10;
             if (MainMenu.Width == _mainMenuOpenedWidth)
                 OpenMainMenuAnim.Stop();
         }
 
         private void CloseMainMenuAnim_Tick(object sender, EventArgs e)
         {
-            MainMenu.Width -= 5;
+            MainMenu.Width -= 10;
             if (MainMenu.Width == _mainMenuClosedWidth)
                 CloseMainMenuAnim.Stop();
         }
@@ -185,6 +197,36 @@ namespace Client
                 Size = new Size(Width - 100, Height - 100)
             };
             mw.ShowDialog(this);
+        }
+
+        private void ReceivedMessagesButton_MouseEnter(object sender, EventArgs e)
+        {
+            ReceivedMessagesButton.Image = _receivedMessagesClickedPicture;
+        }
+
+        private void ReceivedMessagesButton_MouseLeave(object sender, EventArgs e)
+        {
+            ReceivedMessagesButton.Image = _receivedMessagesPicture;
+        }
+
+        private void SentMessagesButton_MouseEnter(object sender, EventArgs e)
+        {
+            SentMessagesButton.Image = _sentMessagesClickedPicture;
+        }
+
+        private void SentMessagesButton_MouseLeave(object sender, EventArgs e)
+        {
+            SentMessagesButton.Image = _sentMessagesPicture;
+        }
+
+        private void DraftMessagesButton_MouseEnter(object sender, EventArgs e)
+        {
+            DraftMessagesButton.Image = _draftMessagesClickedPicture;
+        }
+
+        private void DraftMessagesButton_MouseLeave(object sender, EventArgs e)
+        {
+            DraftMessagesButton.Image = _draftMessagesPicture;
         }
     }
 }
