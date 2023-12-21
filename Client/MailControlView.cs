@@ -346,7 +346,6 @@ namespace Client
         {
             _contentTb = new RichTextBox()
             {
-                Rtf = ContentRtf,
                 ReadOnly = true,
                 Location = new Point(10, _opndFromRect.Y + _opndFromRect.Height),
                 Size = new Size(Width - 10 * 2, Height - _opndFromLocation.Y - 30),
@@ -355,6 +354,8 @@ namespace Client
                 TabStop = false,
                 TabIndex = 0,
             };
+
+            _contentTb.Rtf = ContentRtf;
 
             if (_contentTb.Size.Height < 200)
             {

@@ -49,7 +49,7 @@ namespace Client
             ThemeTB.Text = msg.Theme;
 
             MsgContentTB.Rtf = msg.ContentRtf;
-
+         
             InitInitialValues();
         }
 

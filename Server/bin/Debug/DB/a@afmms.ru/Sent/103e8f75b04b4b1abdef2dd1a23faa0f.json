@@ -1,0 +1,14 @@
+{
+  "id": "103e8f75b04b4b1abdef2dd1a23faa0f",
+  "Send Time": "2023-12-21T21:49:48.8113553+03:00",
+  "Receive Time": "2023-12-21T21:49:54.8944257+03:00",
+  "MessageType": 0,
+  "From": "a@afmms.ru",
+  "To": [
+    "a@afmms.ru"
+  ],
+  "Theme": "sad",
+  "ContentRtf": "{\\rtf1\\ansi\\ansicpg1251\\deff0\\nouicompat\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset204 Arial;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\qc\\ul\\b\\i\\fs18\\lang1033 sadasdsd\\ulnone\\b0\\i0\\f1\\lang1049\\par\r\n}\r\n",
+  "Content": "sadasdsd",
+  "IsOpened": true
+}

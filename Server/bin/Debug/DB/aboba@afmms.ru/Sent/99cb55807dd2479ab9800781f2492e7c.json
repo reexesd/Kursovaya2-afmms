@@ -1,0 +1,14 @@
+{
+  "id": "99cb55807dd2479ab9800781f2492e7c",
+  "Send Time": "2023-12-21T21:38:34.7828322+03:00",
+  "Receive Time": "2023-12-21T21:38:40.8698014+03:00",
+  "MessageType": 0,
+  "From": "aboba@afmms.ru",
+  "To": [
+    "a@afmms.ru"
+  ],
+  "Theme": "asda",
+  "ContentRtf": "{\\rtf1\\ansi\\ansicpg1251\\deff0\\nouicompat\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset204 Arial;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\qc\\ul\\fs18\\lang1033 dasd\\ulnone\\f1\\lang1049\\par\r\n}\r\n",
+  "Content": "dasd",
+  "IsOpened": true
+}
