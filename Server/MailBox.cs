@@ -5,15 +5,17 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
+using System.Web;
 
 namespace Server
 {
     internal class MailBox
     {
-        private string _path;
-        private string _receivedMsgPath;
-        private string _sentMsgPath;
-        private string _draftMsgPath;
+        private readonly string _path;
+        private readonly string _receivedMsgPath;
+        private readonly string _sentMsgPath;
+        private readonly string _draftMsgPath;
 
         private Dictionary<string, List<Message>> _messages = new Dictionary<string, List<Message>>();
 
@@ -57,20 +59,26 @@ namespace Server
             if (msg.Type == Message.MessageType.Sent)
             {
                 path = _sentMsgPath;
-                _messages["sent"].Add(msg);
+                _messages["sent"].Insert(_messages["sent"].Count, msg);
             }
-            else if (msg.Type == Message.MessageType.Recieved)
+            else if (msg.Type == Message.MessageType.Received)
             {
                 path = _receivedMsgPath;
-                _messages["received"].Add(msg);
+                _messages["received"].Insert(_messages["received"].Count, msg);
             }
             else
             {
                 path = _draftMsgPath;
-                _messages["draft"].Add(msg);
+                if (!_messages["draft"].Contains(msg))
+                    _messages["draft"].Insert(_messages["draft"].Count, msg);
+                else
+                {
+                    _messages["draft"].RemoveAt(_messages["draft"].FindIndex(message => message.Id == msg.Id));
+                    _messages["draft"].Insert(_messages["draft"].Count, msg);
+                }
             }
 
-            string messagePath = Path.Combine(path, msg.Id.ToString()) + ".json";
+            string messagePath = Path.Combine(path, msg.Id) + ".json";
 
             string newMail = JsonConvert.SerializeObject(msg, Formatting.Indented);
 
@@ -91,11 +99,11 @@ namespace Server
 
             DirectoryInfo _draftDirectoryInfo = new DirectoryInfo(_draftMsgPath);
 
-            var sentFiles = _sentDirectoryInfo.GetFiles().OrderByDescending(file => file.CreationTime).ToList();
+            var sentFiles = _sentDirectoryInfo.GetFiles().OrderBy(file => file.CreationTime).ToList();
 
-            var receivedFiles = _receivedDirectoryInfo.GetFiles().OrderByDescending(file => file.CreationTime).ToList();
+            var receivedFiles = _receivedDirectoryInfo.GetFiles().OrderBy(file => file.CreationTime).ToList();
 
-            var draftFiles = _draftDirectoryInfo.GetFiles().OrderByDescending(file => file.CreationTime).ToList();
+            var draftFiles = _draftDirectoryInfo.GetFiles().OrderBy(file => file.CreationTime).ToList();
 
             foreach (var sentFile in sentFiles)
             {
@@ -126,6 +134,76 @@ namespace Server
 
                 _messages["draft"].Add(JsonConvert.DeserializeObject<Message>(messageContent));
             }
+        }
+
+        public void MarkMessageAsRead(Message.MessageType type, string id)
+        {
+            switch (type)
+            {
+                case Message.MessageType.Sent:
+                    {
+                        Message msg = _messages["sent"].Find(message => message.Id == id);
+                        msg.IsOpened = true;
+
+                        string changedMessage = JsonConvert.SerializeObject(msg, Formatting.Indented);
+                        string path = Path.Combine(_sentMsgPath, $"{id}.json");
+
+                        File.WriteAllText(path, changedMessage);
+                    }
+                    break;
+
+                case Message.MessageType.Received:
+                    {
+                        Message msg = _messages["received"].Find(message => message.Id == id); 
+                        msg.IsOpened = true;
+
+                        string changedMessage = JsonConvert.SerializeObject(msg, Formatting.Indented);
+                        string path = Path.Combine(_receivedMsgPath, $"{id}.json");
+
+                        File.WriteAllText(path, changedMessage);
+                    }
+                    break;
+
+                case Message.MessageType.Draft:
+                    {
+                        Message msg = _messages["draft"].Find(message => message.Id == id);
+                        msg.IsOpened = true;
+
+                        string changedMessage = JsonConvert.SerializeObject(msg, Formatting.Indented);
+                        string path = Path.Combine(_draftMsgPath, $"{id}.json");
+
+                        File.WriteAllText(path, changedMessage);
+                    }
+                    break;
+            }
+        }
+
+        public void DeleteMessage(Message.MessageType type, string id)
+        {
+            string stype;
+            string path;
+
+            if (type == Message.MessageType.Sent)
+            {
+                stype = "sent";
+                path = _sentMsgPath;
+            }
+            else if (type == Message.MessageType.Draft)
+            {
+                stype = "draft";
+                path = _draftMsgPath;
+            }
+            else
+            {
+                stype = "received";
+                path = _receivedMsgPath;
+            }
+
+            path = Path.Combine(path, $"{id}.json");
+
+            _messages[stype].RemoveAt(_messages[stype].FindIndex(msg => msg.Id == id));
+
+            File.Delete(path);
         }
     }
 }

@@ -11,7 +11,11 @@ namespace Client
 {
     public partial class MailControl : Control
     {
-        public event EventHandler MailOpened;
+        public event EventHandler<MailControl> MailOpened;
+
+        public event EventHandler<MailControl> MailClosed;
+
+        public event EventHandler<MailControl> MailSelected; 
 
         private bool _isMailOpened = false;
 
@@ -51,37 +55,80 @@ namespace Client
                 if (control != this)
                     control.Hide();
             }
+
             BackColor = Color.White;
             Cursor = Cursors.Default;
+
             _checkBox.Hide();
-
-            MailOpened?.Invoke(this, EventArgs.Empty);
-        }
-
-        private async Task DrawOpenedMessage(Graphics g)
-        {
-            using (Brush textBrush = new SolidBrush(Color.Black)) 
-            {
-                await DrawOpenedThemeAsync(g);
-
-                await DrawOpenedToAsync(g);
-
-                await DrawOpenedFromAsync(g);
-
-                await DrawOpenedDateAsync(g);
-            }
 
             if(_contentTb == null)
                 InitContentTB();
 
+            _contentTb.Show();
+
+            Dock = DockStyle.Fill;
+
+            MailOpened?.Invoke(this, this);
+
+
+            _isWatched = true;
+        }
+
+        public void CloseTheMessage()
+        {
+            for(int i = 0; i < Parent.Controls.Count; i++)
+            {
+                MailControl mc = (MailControl)(Parent.Controls[i]);
+                mc.IsSelected = false;
+                if (Parent.Controls[i] == this)
+                {
+                    Dock = DockStyle.Top;
+
+                    _isMailOpened = false;
+
+                    BackColor = Color.FromArgb(222, 222, 222);
+
+                    Cursor = Cursors.Hand;
+
+                    Height = 33;
+
+                    _contentTb.Hide();
+
+                    IsSelected = false;
+
+                    _checkBox.Show();
+
+                    OnSizeChanged(EventArgs.Empty);
+
+                    continue;
+                }
+                Parent.Controls[i].Show();
+            }
+
+            MailClosed?.Invoke(this, this);
+        }
+
+        private void DrawOpenedMessage(Graphics g)
+        {
+            using (Brush textBrush = new SolidBrush(Color.Black)) 
+            {
+                DrawOpenedThemeAsync(g);
+
+                DrawOpenedToAsync(g);
+
+                DrawOpenedFromAsync(g);
+
+                DrawOpenedDateAsync(g);
+            }
+            
             _contentTb.Location = new Point(_contentTb.Location.X, _opndFromRect.Location.Y + _opndFromRect.Height);
             _contentTb.Height = Height - _contentTb.Location.Y - 10;
         }
         
-        private async Task DrawOpenedDateAsync(Graphics g)
+        private void DrawOpenedDateAsync(Graphics g)
         {
             string receiveDate = "Получено " + ReceiveDate.ToString("dd.MM.yyyy в HH:mm:ss");
-            string sendDate = "Отправлено" + SendDate.ToString("dd.MM.yyyy в HH:mm:ss");
+            string sendDate = "Отправлено " + SendDate.ToString("dd.MM.yyyy в HH:mm:ss");
 
             int dateXCoordinate = Width - DATE_WIDTH;
 
@@ -89,12 +136,12 @@ namespace Client
 
             Rectangle sendDateRect = new Rectangle(dateXCoordinate, _opndFromRect.Y, DATE_WIDTH, 20);
 
-            await PrintMultilineString(g, receiveDate, _openedDateFont, ref receiveDateRect);
+            PrintMultilineString(g, receiveDate, _openedDateFont, ref receiveDateRect);
 
-            await PrintMultilineString(g, sendDate, _openedDateFont, ref sendDateRect);
+            PrintMultilineString(g, sendDate, _openedDateFont, ref sendDateRect);
         }
 
-        private async Task DrawOpenedFromAsync(Graphics g)
+        private void DrawOpenedFromAsync(Graphics g)
         {
             string textToDraw = $"От: {From}";
 
@@ -102,10 +149,10 @@ namespace Client
 
             _opndFromRect = new Rectangle(_opndFromLocation.X, _opndFromLocation.Y, Width - _opndToLocation.X - (int)DATE_WIDTH, 20);
 
-            await PrintMultilineString(g, textToDraw, _openedFromFont, ref _opndFromRect);
+            PrintMultilineString(g, textToDraw, _openedFromFont, ref _opndFromRect);
         }
 
-        private async Task DrawOpenedToAsync(Graphics g)
+        private void DrawOpenedToAsync(Graphics g)
         {
             _opndToLocation.Y = _opndThemeRect.Y + _opndThemeRect.Height;
 
@@ -113,17 +160,17 @@ namespace Client
 
             string textToDraw = $"Кому: {To}";
 
-            await PrintMultilineString(g, textToDraw, _openedToFont, ref _opndToRect);
+            PrintMultilineString(g, textToDraw, _openedToFont, ref _opndToRect);
         }
 
-        private async Task DrawOpenedThemeAsync(Graphics g)
+        private void DrawOpenedThemeAsync(Graphics g)
         {
             _opndThemeRect = new Rectangle(_opndThemeLocation.X, _opndThemeLocation.Y, Width - _opndThemeLocation.X * 2, 20);
 
-            await PrintMultilineString(g, Theme, _themeFont, ref _opndThemeRect);
+            PrintMultilineString(g, Theme, _themeFont, ref _opndThemeRect);
         }
 
-        private Task PrintMultilineString(Graphics g, string text, Font font, ref Rectangle rect) 
+        private void PrintMultilineString(Graphics g, string text, Font font, ref Rectangle rect) 
         {
             StringBuilder newText = new StringBuilder();
             StringFormat stringFormat = StringFormat.GenericTypographic;
@@ -159,8 +206,6 @@ namespace Client
 
             if (rect.Height + rect.Y > Height)
                 Height = rect.Height + rect.Y;
-
-            return Task.CompletedTask;
         }
     }
 }

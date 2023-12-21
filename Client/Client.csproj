@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>C:\Users\nikit\Desktop\Мой проект\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,7 +42,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>C:\Users\nikit\Desktop\Мой проект\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -52,6 +52,13 @@
     <StartupObject>Client.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NamedPipeLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\NamedPipeLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -82,11 +89,15 @@
     <Compile Include="MailControlView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Message.cs" />
     <Compile Include="MessageWriter.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MessageWriter.Designer.cs">
       <DependentUpon>MessageWriter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +105,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RichTextBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="UserPanel.cs">
@@ -122,17 +136,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="RichTextBox.resx">
+      <DependentUpon>RichTextBox.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Server\Server.csproj">
-      <Project>{ef6606e7-9ecc-4b88-afa6-4178545f2137}</Project>
-      <Name>Server</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\hiden.png" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +224,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\DraftMessagesImgClicked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NamedPipeLib.dll" />
+    <Content Include="ServerData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\TrashClicked.png" />
+    <None Include="Resources\GrayArrow.png" />
+    <None Include="Resources\Trash.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

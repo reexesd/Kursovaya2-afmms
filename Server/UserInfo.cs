@@ -94,10 +94,13 @@ namespace Server
             int width = Width;
             int offset = 10;
 
+            List<User> users = ServerWorker.GetUsersList();
+            string name = users[users.Count - 1].Username;
+
             _name = new Label
             {
                 AutoSize = true,
-                Text = string.Format("Имя: {0}", ServerController.GetNewUserInfo()),
+                Text = string.Format("Имя: {0}", name),
                 Location = new Point(0, 0),
                 Font = new Font("Times New Roman", 12, FontStyle.Bold)
             };
@@ -141,7 +144,7 @@ namespace Server
         public void UpdateUserInfo()
         {
             string username = _name.Text.Remove(0, 5);
-            User user = ServerController.GetUserInfo(username);
+            User user = ServerWorker.GetUser(username);
             _countOfMessages.Text = string.Format("Количество сообщений: {0}", user.MessageCount.ToString());
             _progressBar.Value = GetFolderSize(Path.Combine("DB", username));
             this.Update();

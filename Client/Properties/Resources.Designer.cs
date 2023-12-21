@@ -103,6 +103,16 @@ namespace Client.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GrayArrow {
+            get {
+                object obj = ResourceManager.GetObject("GrayArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap hiden {
             get {
                 object obj = ResourceManager.GetObject("hiden", resourceCulture);
@@ -236,6 +246,26 @@ namespace Client.Properties {
         internal static System.Drawing.Bitmap TextAlignRight {
             get {
                 object obj = ResourceManager.GetObject("TextAlignRight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Trash {
+            get {
+                object obj = ResourceManager.GetObject("Trash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TrashClicked {
+            get {
+                object obj = ResourceManager.GetObject("TrashClicked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

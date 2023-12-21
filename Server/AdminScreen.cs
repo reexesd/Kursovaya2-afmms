@@ -21,7 +21,7 @@ namespace Server
 {
     public partial class AdminScreen : Form
     {
-        private List<UserInfo> _users = new List<UserInfo>();
+        private readonly List<UserInfo> _users = new List<UserInfo>();
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
         public AdminScreen()
@@ -30,13 +30,14 @@ namespace Server
             UpdateAllUsers();
             InitDataGridView();
             InitChart();
-            ServerController.NewUserAdded += AddNewUser;
-            ServerController.MessageSent += MessageSent;
-            ServerController.NeedToUpdate += UpdateRequired;
-            ServerController.NeedToUpdate += UpdateServerProgressBar;
-            ServerController.ProcessingStarted += StartProcessing;
-            ServerController.ProcessingCompleted += CompleteProcessing;
-            ServerController.ProcessingEnded += DeleteFirstRow;
+
+            ServerWorker.NewUserRegistred += OnNewUserRegistred;
+            ServerWorker.MessageSentRequired += MessageSent;
+            ServerWorker.UserInfoUpdated += UpdateUserInfo;
+            ServerWorker.UserInfoUpdated += UpdateServerProgressBar;
+            ServerWorker.MessageProcessingStarted += StartProcessing;
+            ServerWorker.MessageProcessingCompleted += CompleteProcessing;
+            ServerWorker.MessageProcessingFailed += FailProcessing;
         }
 
         private void DrawChartArea(int offset = 0)
@@ -102,11 +103,11 @@ namespace Server
             ProcessingMessages.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
         }
 
-        private void AddNewUser(object sender, EventArgs e)
+        private void OnNewUserRegistred(object sender, User user)
         {
             if (RegistredUsersPanel.InvokeRequired)
             {
-                RegistredUsersPanel.Invoke(new Action<object, EventArgs>(AddNewUser), sender, e);
+                RegistredUsersPanel.Invoke(new Action<object, User>(OnNewUserRegistred), sender, user);
             }
             else
             {
@@ -120,7 +121,7 @@ namespace Server
             ProcessingMessages.Invoke(new Action<Message>(EnqueueToProcessing), msg);
         }
 
-        private void UpdateRequired(object sender, User user)
+        private void UpdateUserInfo(object sender, User user)
         {
             _users.Find(x => x.Name == user.Username).Invoke((MethodInvoker)delegate
             {
@@ -155,19 +156,32 @@ namespace Server
         {
             if (ProcessingMessages.InvokeRequired)
                 ProcessingMessages.Invoke(new Action<object, Message>(StartProcessing), sender, message);
-            ProcessingMessages.Rows[0].Cells[0].Value = "SMTP";
-            ProcessingMessages.Rows[0].Cells[3].Value = "Отправлено";
+            else
+            {
+                ProcessingMessages.Rows[0].Cells[0].Value = "SMTP";
+                ProcessingMessages.Rows[0].Cells[3].Value = "Отправлено";
+            }
         }
 
-        private void CompleteProcessing(object sender, Message message)
+        private async void CompleteProcessing(object sender, Message message)
         {
             ProcessingMessages.Rows[0].Cells[0].Value = "POP3";
             ProcessingMessages.Rows[0].Cells[3].Value = "Получено";
             ProcessingMessages.Rows[0].Cells[5].Value = message.ReceiveTime.ToString();
+
+            await Task.Delay(3000);
+
+            ProcessingMessages.Invoke(new Action(() => ProcessingMessages.Rows.RemoveAt(0)));
         }
 
-        private void DeleteFirstRow(object sender, EventArgs e)
+        private async void FailProcessing(object sender, string message)
         {
+            ProcessingMessages.Rows[0].Cells[0].Value = "POP3";
+            ProcessingMessages.Rows[0].Cells[3].Value = message;
+            ProcessingMessages.Rows[0].Cells[5].Value = "Ошибка";
+
+            await Task.Delay(3000);
+
             ProcessingMessages.Invoke(new Action(() => ProcessingMessages.Rows.RemoveAt(0)));
         }
 
@@ -209,7 +223,7 @@ namespace Server
             StopButton.Enabled = false;
         }
 
-        private async void StartButton_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
             _stopwatch.Start();
 
@@ -218,7 +232,8 @@ namespace Server
 
             ApplyStyleForRunnedServer();
             UpdateElapsedTime.Start();
-            await Task.Run(() => ServerController.StartServerAsync());
+
+            ServerWorker.StartServer();
         }
 
         private void PauseButton_Click(object sender, EventArgs e)
@@ -228,7 +243,7 @@ namespace Server
             _chartOffset = 20;
             _chartTicks = 0;
 
-            ServerController.StopServer();
+            ServerWorker.StopServer();
             ApplyStyleForPausedServer();
         }
 
@@ -245,12 +260,12 @@ namespace Server
 
             UpdateElapsedTime_Tick(sender, e);
             ApplyStyleForStoppedServer();
-            ServerController.StopServer();
+            ServerWorker.StopServer();
         }
 
         private void UpdateAllUsers()
         {
-            ServerController.GetUsersList()?.ForEach(user =>
+            ServerWorker.GetUsersList()?.ForEach(user =>
             {
                 UserInfo userInfo = new UserInfo(user.Username, user.MessageCount);
                 _users.Add(userInfo);

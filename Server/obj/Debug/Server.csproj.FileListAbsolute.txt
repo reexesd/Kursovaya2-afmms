@@ -19,9 +19,6 @@ E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Курсач 2.e
 E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Курсач 2.pdb
 E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Newtonsoft.Json.dll
 E:\Visual studio\проекты\Курсач 2\Server\bin\Debug\Newtonsoft.Json.xml
-C:\Users\nikit\Desktop\Мой проект\Server.exe.config
-C:\Users\nikit\Desktop\Мой проект\Server.exe
-C:\Users\nikit\Desktop\Мой проект\Server.pdb
 E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.AssemblyReference.cache
 E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.SuggestedBindingRedirects.cache
 E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.AdminScreen.resources
@@ -31,6 +28,12 @@ E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.Co
 E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.csproj.CopyComplete
 E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.exe
 E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.exe.config
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.exe
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\NamedPipeLib.dll
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Newtonsoft.Json.xml
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.AssemblyReference.cache
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.SuggestedBindingRedirects.cache
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.AdminScreen.resources

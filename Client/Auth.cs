@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using Server;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
+using NamedPipeLib;
 
 namespace Client
 {
@@ -16,14 +16,39 @@ namespace Client
     {
         private const string USERNAME_EXMPL = "username@afmms.ru";
 
+        private readonly NamedPipeClient _client;
+
+        private readonly Image _loadingImg = Resources.Loading;
+
+        private readonly Image _hidenPassword = Resources.hiden;
+
+        private readonly Image _notHidenPassword = Resources.not_hiden;
+
         private List<char> _validSymbols;
         private bool _rememberMe = false;
 
-        public Auth()
+        public event EventHandler<string> LogInSuccessed;
+
+        public Auth(NamedPipeClient client)
         {
+            _client = client;
             InitializeComponent();
             RegisterValidSymbols();
             SetOpacityOfControls(255);
+            _ = Connect();
+        }
+
+        private async Task Connect(bool showMsg = true)
+        {
+            try
+            {
+                await _client.ConnectAsync(1);
+            }
+            catch 
+            {
+                if(showMsg)
+                    MessageBox.Show("Сервер не отвечает, попробуйте позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void RegisterValidSymbols()
@@ -114,14 +139,19 @@ namespace Client
         private bool _registrationButtonClicked = false;
         private async void RegistrationLabel_Click(object sender, EventArgs e)
         {
+            if (!_client.IsConnected)
+                await Connect(false);
+
+            UsernameTB_TextChanged(null, new EventArgs());
+
             EmptyFieldsCheck();
 
             if (UsernameInputError.Text != string.Empty || PasswordInputError.Text != string.Empty || PasswordRepeatInputError.Text != string.Empty)
                 return;
 
-            string username = UsernameTB.Text;
+            string username = UsernameTB.Text.ToLower();
             string password = PasswordTB.Text;
-            await RegisterNewUserAsync(username, password);
+            RegisterNewUser(username, password);
         }
 
         private PictureBox _loading;
@@ -132,31 +162,31 @@ namespace Client
             _loading.BringToFront();
             _loading.SizeMode = PictureBoxSizeMode.StretchImage;
             _loading.Dock = DockStyle.Fill;
-            _loading.Image = Resources.Loading;
+            _loading.Image = _loadingImg;
         }
 
-        private async Task RegisterNewUserAsync(string username, string password)
+        private async void RegisterNewUser(string username, string password)
         {
             SetLoadingScreen();
+
             try
             {
-                await ServerController.TryConnect();
+                _client.SendRequest($"Register New User:{username}:{password}");
             }
             catch 
-            { 
-                MessageBox.Show("Сервер не отвечает, попробуйте позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                await Task.Delay(3000);
+                await Connect(true);
                 return;
             }
             finally { _loading.Dispose(); }
-            await ServerController.RegisterUserAsync(username, password);
             Settings.Default.AutoLogin = _rememberMe;
             Settings.Default.Login = username;
             Settings.Default.Password = password;
             Settings.Default.Save(); 
             
             _registrationButtonClicked = true;
-            Close();
-            return;
+            Close();    
         }
 
         private bool _passwordIsHiden = true;
@@ -165,12 +195,12 @@ namespace Client
             _passwordIsHiden = !_passwordIsHiden;
             if (_passwordIsHiden)
             {
-                HidePassword.Image = Properties.Resources.hiden;
+                HidePassword.Image = _hidenPassword;
                 PasswordTB.PasswordChar = '•';
             }
             else
             {
-                HidePassword.Image = Properties.Resources.not_hiden;
+                HidePassword.Image = _notHidenPassword;
                 PasswordTB.PasswordChar = '\0';
             }
         }
@@ -184,7 +214,7 @@ namespace Client
         {
             const string url = "@afmms.ru";
             int index = username.Length - url.Length;
-            if (index >= 0 && username.Substring(index) == url)
+            if (index >= 0 && username.Substring(index).ToLower() == url)
             {
                 for (int i = 0; i < index; i++)
                     if (username[i] == '@') return false;
@@ -208,22 +238,40 @@ namespace Client
             if (UsernameTB.Text != string.Empty)
             {
                 firstSymbol = UsernameTB.Text[0];
+
                 if (!IsValidFirstSymbol(firstSymbol))
                 {
                     UsernameInputError.Text = "Имя пользователя должно начинаться с латинской буквы";
                     return;
                 }
+
                 if (HasInvalidSymbol(UsernameTB.Text))
                 {
                     UsernameInputError.Text = "Введен некорректный символ. Допускаются (A-Z), (a-z), ., -, _.";
                     return;
                 }
+
                 if (!IsValidUsername(UsernameTB.Text))
                 {
                     UsernameInputError.Text = "Адрес почтового ящика введен в неверном формате";
                     return;
                 }
-                if (_isRegistrationField && ServerController.IsUserExist(UsernameTB.Text))
+
+                bool isUserExists = false;
+
+                try
+                {
+                    if(_client.IsConnected && _client.SendRequest($"Is User Exists:{UsernameTB.Text}") == "T")
+                        isUserExists = true;
+                }
+                catch
+                {
+                    UsernameInputError.Text = string.Empty;
+                    return;
+                }
+
+
+                if (_isRegistrationField && isUserExists)
                 {
                     UsernameInputError.Text = "Такой пользователь уже существует";
                     return;
@@ -267,22 +315,34 @@ namespace Client
                 return;
             }
 
-            string username = UsernameTB.Text;
+            string username = UsernameTB.Text.ToLower();
             string password = PasswordTB.Text;
 
-            if (ServerController.TryLogin(username, password))
+            SetLoadingScreen();
+
+            if (!_client.IsConnected)
+                await Connect(false);
+
+            bool isLoginAccess;
+
+            try
             {
-                SetLoadingScreen();
-                try
-                {
-                    await ServerController.TryConnect();
-                }
-                catch
-                {
-                    MessageBox.Show("Сервер не отвечает, попробуйте позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                finally { _loading.Dispose(); }
+                isLoginAccess = _client.SendRequest($"Try Login:{username}:{password}") == "T";
+            }
+            catch
+            {
+                await Task.Delay(3000);
+
+                isLoginAccess = false;
+
+                await Connect(true);
+
+                return;
+            }
+            finally { _loading?.Dispose(); }
+
+            if (isLoginAccess)
+            {
                 Settings.Default.AutoLogin = _rememberMe;
                 Settings.Default.Login = username;
                 Settings.Default.Password = password;
@@ -398,10 +458,13 @@ namespace Client
 
         private void Auth_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing && !_registrationButtonClicked && !_loginButtonClicked)
-                DialogResult = DialogResult.No;
-            else
+            if (_registrationButtonClicked || _loginButtonClicked)
+            {
                 DialogResult = DialogResult.Yes;
+                LogInSuccessed?.Invoke(null, UsernameTB.Text);
+            }
+            else
+                DialogResult = DialogResult.No;
         }
     }
 }

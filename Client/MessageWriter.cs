@@ -1,5 +1,4 @@
-﻿using Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,18 +7,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using NamedPipeLib;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Client
 {
     public partial class MessageWriter : Form
     {
-        private string _username;
+        private readonly string _username;
+        private readonly NamedPipeClient _client;
+        private readonly Message _msg;
 
-        public MessageWriter(string username)
+        private string _initialTo;
+        private string _initialTheme;
+        private string _initialContent;
+
+        public MessageWriter(string username, NamedPipeClient client)
         {
             InitializeComponent();
             RegisterValidSymbols();
             _username = username;
+            _client = client;
+            InitInitialValues();
+        }
+
+        public MessageWriter(Message msg, string username, NamedPipeClient client)
+        {
+            InitializeComponent();
+            RegisterValidSymbols();
+
+            _username = username;
+            _client = client;
+
+            _msg = msg;
+
+            foreach (var to in msg.To)
+                ToTB.Text += $"{to}, ";
+            ToTB.Text = ToTB.Text.TrimEnd(new char[] { ' ', ',' });
+
+            ThemeTB.Text = msg.Theme;
+
+            MsgContentTB.Rtf = msg.ContentRtf;
+
+            InitInitialValues();
+        }
+
+        private void InitInitialValues()
+        {
+            _initialTo = ToTB.Text;
+            _initialTheme = ThemeTB.Text;
+            _initialContent = MsgContentTB.Rtf;
         }
 
         private void SetFontStyle(FontStyle style)
@@ -28,7 +66,7 @@ namespace Client
             int selectionLength = MsgContentTB.SelectionLength;
 
             Font currentFont = MsgContentTB.SelectionFont;
-            FontStyle newStyle = currentFont.Style ^ style; 
+            FontStyle newStyle = currentFont.Style ^ style;
 
             MsgContentTB.SelectionFont = new Font(currentFont, newStyle);
 
@@ -73,7 +111,7 @@ namespace Client
                 errorOutputLabel.Text = string.Empty;
                 return false;
             }
-            else 
+            else
                 errorOutputLabel.Text = "Поле не может быть пустым";
             return true;
         }
@@ -86,7 +124,7 @@ namespace Client
             {
                 for (int i = 0; i < index; i++)
                     if (username[i] == '@') return false;
-                if(HasInvalidSymbol(username)) return false;
+                if (HasInvalidSymbol(username)) return false;
                 return true;
             }
             return false;
@@ -116,12 +154,12 @@ namespace Client
             return false;
         }
 
-        private List<string> _recipientsList = new List<string>();
+        private readonly List<string> _recipientsList = new List<string>();
         private void ParseUsernames(string usernames)
         {
             _recipientsList.Clear();
             string[] _recipientsArray = usernames.Split(',');
-            for(int i = 0;i < _recipientsArray.Length; i++)
+            for (int i = 0; i < _recipientsArray.Length; i++)
             {
                 if (_recipientsArray[i] == string.Empty)
                     continue;
@@ -135,7 +173,7 @@ namespace Client
                 }
                 if (_recipientsList.Contains(_recipientsArray[i]))
                     continue;
-                _recipientsList.Add(_recipientsArray[i]); 
+                _recipientsList.Add(_recipientsArray[i]);
             }
         }
 
@@ -144,25 +182,78 @@ namespace Client
         {
             if (IsEmptyField(ToTB, ToInputErrorLabel) || IsEmptyField(ThemeTB, ThemeInputErrorLabel))
                 return;
+
             ParseUsernames(ToTB.Text);
-            if(_recipientsList.Count == 0)
+
+            if (_recipientsList.Count == 0)
             {
                 ToInputErrorLabel.Text = "Не введено ни одного адреса в верном формате!";
                 return;
             }
-            Server.Message message = new Server.Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, MsgContentTB.Text, Server.Message.MessageType.Sent, DateTime.Now);
+
+            if (ThemeTB.Text.Length > 1500)
+            {
+                ThemeInputErrorLabel.Text = "Длина темы не должна превышать 1500 символов";
+                return;
+            }
+
+            Message message = new Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, MsgContentTB.Text, Message.MessageType.Sent, DateTime.Now);
+
             try
             {
-                await ServerController.TryConnect();
+                if (_client.IsConnected)
+                    _client.SendRequest($"Send Message:{JsonConvert.SerializeObject(message, Formatting.None)}");
+                else
+                {
+                    await _client.ConnectAsync(3000);
+                    _client.SendRequest($"Send Message:{JsonConvert.SerializeObject(message, Formatting.None)}");
+                }
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Сервер не отвечает, попробуйте отправить сообщение позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            await ServerController.SendMessage(message);
             _sendButtonClicked = true;
             Close();
+        }
+
+        private async void MessageWriter_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_sendButtonClicked)
+            {
+                if (_initialContent == MsgContentTB.Rtf && _initialTheme == ThemeTB.Text && _initialTo == ToTB.Text)
+                    return;
+
+                if (ThemeTB.Text.Length > 1500)
+                    ThemeTB.Text = ThemeTB.Text.Substring(0, 1500);
+
+                try
+                {
+                    if (!_client.IsConnected)
+                        await _client.ConnectAsync(1);
+                    MessageBox.Show("Письмо будет сохранено в черновики", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                catch
+                {
+                    MessageBox.Show("Неудалось сохранить письмо в черновиках, нет подключения к серверу", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Message msg;
+
+                if (_msg != null)
+                {
+                    msg = new Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, MsgContentTB.Text, Message.MessageType.Draft, DateTime.Now, _msg.Id, false);
+                }
+                else
+                {
+                    msg = new Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, MsgContentTB.Text, Message.MessageType.Draft, DateTime.Now);
+                }
+
+                _client.SendRequest($"Save Message:{JsonConvert.SerializeObject(msg, Formatting.None)}");
+
+            }
         }
     }
 }

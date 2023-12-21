@@ -10,19 +10,19 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Server;
-using Message = Server.Message;
 
 namespace Client
 {
     public partial class MailControl : Control
     {
+        private bool _isWatched = false;
+
         private bool _isMouseOver = false;
 
         private int _borderWidth = 1;
         private bool _isBorderCreate = true;
         private int _opacity = 255;
-        private Color _borderColor = Color.LightGray;
+        private Color _borderColor = Color.FromArgb(200, 200, 200);
 
         private CheckBox _checkBox;
         private readonly Message _message;
@@ -48,20 +48,32 @@ namespace Client
         private DateTime _receiveDate = DateTime.Now;
         private DateTime _sendDate = DateTime.Now;
 
+        public Message Message { get { return _message; } }
+
         public bool IsSelected
         {
             get
             {
-                if(_checkBox.Visible)
+                if (_checkBox.Visible)
                     return _checkBox.Checked;
                 else
                     return false;
             }
+            set
+            {
+                _checkBox.Checked = value;
+                Invalidate();
+            }
+        }
+
+        public bool IsWatched
+        {
+            get { return _isWatched; }
         }
 
         protected int FromWidth
         {
-            get 
+            get
             {
                 return (int)(Width * 0.15);
             }
@@ -232,19 +244,21 @@ namespace Client
 
         public MailControl(Message message)
         {
-            Init();
-
             _message = message;
             From = _message.From;
             Theme = _message.Theme;
-            Content = _message.Content;
+            Content = _message.Content.Replace("\n", " ");
             ContentRtf = _message.ContentRtf;
             ReceiveDate = _message.ReceiveTime;
             SendDate = _message.SendTime;
+            _isWatched = message.IsOpened;
 
+            To = "";
             foreach (var to in _message.To)
                 To += $"{to}, ";
             To = To.TrimEnd(',', ' ');
+
+            Init();
         }
 
         private void Init()
@@ -253,9 +267,14 @@ namespace Client
 
             InitCheckBox();
 
-            Size = new Size(400, 30);
+            Size = new Size(400, 33);
             Cursor = Cursors.Hand;
             MinimumSize = new Size(100, 20);
+
+            if (!_isWatched)
+                BackColor = Color.White;
+            else
+                BackColor = Color.FromArgb(222, 222, 222);
 
             _checkBox.CheckedChanged += CheckBox_CheckedChanged;
             _checkBox.MouseEnter += MailControl_MouseEnter;
@@ -270,7 +289,13 @@ namespace Client
             if (_checkBox.Checked)
                 BackColor = Color.FromArgb(Opacity, 194, 219, 255);
             else
-                BackColor = Color.Transparent;
+            {
+                if (_isWatched)
+                    BackColor = Color.FromArgb(222, 222, 222);
+                else
+                    BackColor = Color.White;
+            }
+            MailSelected?.Invoke(sender, this);
         }
 
         private void MailControl_MouseLeave(object sender, EventArgs e)
@@ -311,7 +336,7 @@ namespace Client
                 AutoSize = true,
                 Cursor = Cursors.Hand,
                 BackColor = Color.Transparent,
-                Anchor = AnchorStyles.Left
+                Anchor = AnchorStyles.Left,
             };
             _checkBox.Location = new Point(5, (Height - _checkBox.Height) / 2);
             Controls.Add(_checkBox);
@@ -321,7 +346,7 @@ namespace Client
         {
             _contentTb = new RichTextBox()
             {
-                Text = Content,
+                Rtf = ContentRtf,
                 ReadOnly = true,
                 Location = new Point(10, _opndFromRect.Y + _opndFromRect.Height),
                 Size = new Size(Width - 10 * 2, Height - _opndFromLocation.Y - 30),
@@ -331,7 +356,7 @@ namespace Client
                 TabIndex = 0,
             };
 
-            if(_contentTb.Size.Height < 200)
+            if (_contentTb.Size.Height < 200)
             {
                 Height += 200;
             }
@@ -356,12 +381,9 @@ namespace Client
             _fromLocation = new Point(_checkBox.Location.X + _checkBox.Width + 3, _checkBox.Location.Y - 2);
 
             _themeLocation = new Point(_fromLocation.X + FromWidth, _checkBox.Location.Y - 2);
-
-            if (_isMailOpened && Height < Parent.Height)
-                Size = Parent.Size;
         }
 
-        protected override async void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
@@ -380,7 +402,7 @@ namespace Client
             }
             else
             {
-                await DrawOpenedMessage(g);
+                DrawOpenedMessage(g);
             }
         }
 
@@ -401,23 +423,23 @@ namespace Client
 
             string date = ReceiveDate.ToString("dd MMM");
 
-            using(Brush textBrush = new SolidBrush(Color.Black))
+            using (Brush textBrush = new SolidBrush(Color.Black))
                 graphics.DrawString(date, _dateFont, textBrush, _dateLocation);
         }
 
         private void DrawContent(Graphics graphics)
         {
-            int themeWidth = (int)graphics.MeasureString(Theme, _themeFont).Width;
+            int themeWidth = (int)graphics.MeasureString(Theme, _themeFont, int.MaxValue, _componentsFormat).Width;
 
             if (themeWidth > _themeRect.Width)
                 return;
 
-            string textToDraw = $"-  {Content}";
+            string textToDraw = $" - {Content}";
 
             _contentRect = new Rectangle(_themeRect.X + themeWidth, _themeRect.Y, _themeRect.Width - themeWidth, _themeRect.Height);
 
             using (Brush textBrush = new SolidBrush(Color.DimGray))
-                graphics.DrawString(textToDraw, _contentFont, textBrush, _contentRect,_componentsFormat);
+                graphics.DrawString(textToDraw, _contentFont, textBrush, _contentRect, _componentsFormat);
         }
 
         private void DrawTheme(Graphics graphics)
@@ -434,8 +456,8 @@ namespace Client
         {
             string textToDraw = From.Replace("@afmms.ru", string.Empty);
             _fromRect = new Rectangle(_fromLocation.X, _fromLocation.Y, FromWidth, (int)_fromFont.GetHeight() + 3);
-            
-            using(Brush textBrush = new SolidBrush(Color.Black))
+
+            using (Brush textBrush = new SolidBrush(Color.Black))
                 graphics.DrawString(textToDraw, _fromFont, textBrush, _fromRect, _componentsFormat);
         }
 

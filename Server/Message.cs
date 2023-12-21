@@ -13,11 +13,13 @@ namespace Server
         public enum MessageType
         {
             Sent,
-            Recieved,
+            Received,
             Draft
         }
+
+        private bool _isOpened = false;
         private MessageType _type;
-        private readonly int _id;
+        private readonly string _id;
         private readonly string _from;
         private readonly List<string> _to;
         private readonly string _contentRtf;
@@ -27,7 +29,7 @@ namespace Server
         private readonly string _content;
 
         [JsonProperty("id", Order = 1)]
-        public int Id { get { return _id; } }
+        public string Id { get { return _id; } }
 
         [JsonProperty("Send Time", Order = 2)]
         public DateTime SendTime {  get { return _sendTime; } }
@@ -53,13 +55,16 @@ namespace Server
         [JsonProperty("Content", Order = 9)]
         public string Content { get { return _content; } }
 
+        [JsonProperty("IsOpened", Order = 10)]
+        public bool IsOpened { get { return _isOpened; } set { _isOpened = value; } }
+
         [JsonConstructor]
-        public Message(string from, List<string> to, string theme, string contentRtf, string content, MessageType type, DateTime sendTime, int id = 0)
+        public Message(string from, List<string> to, string theme, string contentRtf, string content, MessageType type, DateTime sendTime, string id = "", bool isOpened = false)
         {
             _theme = theme;
             _sendTime = sendTime;
-            if(id ==0)
-                _id = GetHashCode();
+            if (id == "")
+                _id = Guid.NewGuid().ToString("N");
             else
                 _id = id;
             _from = from;
@@ -67,6 +72,22 @@ namespace Server
             _contentRtf = contentRtf;
             _type = type;
             _content = content;
+            _isOpened = isOpened;
+        }
+
+        public override int GetHashCode()
+        {
+            return _id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            Message otherMessage = (Message)obj;
+
+            return _id == otherMessage.Id;
         }
     }
 }

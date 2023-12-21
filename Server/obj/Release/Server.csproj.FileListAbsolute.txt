@@ -19,3 +19,9 @@ C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.cspro
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.csproj.CopyComplete
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.exe
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Release\Server.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Release\Server.exe.config
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Release\Server.exe
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Release\Server.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Release\NamedPipeLib.dll
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Release\Newtonsoft.Json.dll
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Release\Newtonsoft.Json.xml

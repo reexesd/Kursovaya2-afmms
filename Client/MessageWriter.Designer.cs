@@ -233,6 +233,7 @@
             this.Name = "MessageWriter";
             this.ShowIcon = false;
             this.Text = "Новое письмо";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MessageWriter_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.SendButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
