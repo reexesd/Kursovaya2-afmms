@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Client.Auth" Collapsed="true">
+    <Position X="8" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gRCUASwAILqoAEIEgCTPiJICAgASEAhiCAAhCCgkUFA=</HashCode>
+      <FileName>Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.ClientApp" Collapsed="true">
+    <Position X="10" Y="1.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IxD2mQ3QoOgoSEBAMUOJaMEeXgNIEieh6QZaECFKSQ8=</HashCode>
+      <FileName>ClientApp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.MailControl" Collapsed="true">
+    <Position X="12.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QgioGBAgYoEDkChRgklAxwASR2FJMFIIEuQC8CFAiKA=</HashCode>
+      <FileName>MailControlFunc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Message" Collapsed="true">
+    <Position X="8.25" Y="2.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Client.Message.MessageType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Message.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgAyAABAAgAAAAQRgEFAAAAAAgAIEIIAAQEAACABAAA=</HashCode>
+      <FileName>Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.MessageWriter" Collapsed="true">
+    <Position X="10.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KAgChAgAEGAAEFCDAKjBgYA2EAAAIAAIAAIAGAAEIAA=</HashCode>
+      <FileName>MessageWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Panel" Collapsed="true">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Panel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Program" Collapsed="true">
+    <Position X="12.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.RichTextBox" Collapsed="true">
+    <Position X="10.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RichTextBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.UserPanel" Collapsed="true">
+    <Position X="6.25" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAABCAAAAAAAAAAAIEAAAAAAAALAAAAAA=</HashCode>
+      <FileName>UserPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Properties.Resources" Collapsed="true">
+    <Position X="11.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAABgAAAgCAAgAAFTEAFMICwEYAIAAAAECAAIAAgAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Properties.Settings" Collapsed="true">
+    <Position X="12.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAIAAAAAABAAACAAgQAAAACAA=</HashCode>
+      <FileName>Settings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

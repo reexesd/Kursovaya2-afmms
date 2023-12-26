@@ -1,0 +1,20 @@
+{
+  "id": "c28db86cd46746b9b4b7360fcf86a68f",
+  "Send Time": "2023-12-21T02:19:58.9714127+03:00",
+  "Receive Time": "2023-12-21T02:20:14.1567344+03:00",
+  "MessageType": 1,
+  "From": "a@afmms.ru",
+  "To": [
+    "sda@afmms.ru",
+    "l@afmms.ru",
+    "j@afmms.ru",
+    "k@afmms.ru",
+    "olega@afmms.ru",
+    "aboba@afmms.ru",
+    "a@afmms.ru"
+  ],
+  "Theme": "addd",
+  "ContentRtf": "{\\rtf1\\ansi\\ansicpg1251\\deff0\\nouicompat\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset204 Arial;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\fs18\\lang1033 dddddd\\f1\\lang1049\\par\r\n}\r\n",
+  "Content": "dddddd",
+  "IsOpened": true
+}

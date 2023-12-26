@@ -31,11 +31,8 @@ E:\Visual studio\проекты\Курсач 2\Server\obj\Debug\Server.pdb
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.exe.config
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.exe
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.pdb
-C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\NamedPipeLib.dll
-C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Newtonsoft.Json.dll
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Newtonsoft.Json.xml
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.AssemblyReference.cache
-C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.SuggestedBindingRedirects.cache
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.AdminScreen.resources
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.Properties.Resources.resources
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.GenerateResource.cache
@@ -43,3 +40,10 @@ C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.CopyComplete
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.exe
 C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.pdb
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.exe.manifest
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\Server.application
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.TrustInfo.xml
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.exe.manifest
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.application
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\nikit\Documents\GitHub\Kursovaya2-afmms\Server\obj\Debug\Server.csproj.Fody.CopyLocal.cache

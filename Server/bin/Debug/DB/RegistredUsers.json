@@ -7,7 +7,7 @@
   {
     "Name": "aboba@afmms.ru",
     "Password": "2121",
-    "MessageCount": 7
+    "MessageCount": 8
   },
   {
     "Name": "olega@afmms.ru",
@@ -22,7 +22,7 @@
   {
     "Name": "j@afmms.ru",
     "Password": "2121",
-    "MessageCount": 5
+    "MessageCount": 3
   },
   {
     "Name": "l@afmms.ru",
@@ -32,6 +32,21 @@
   {
     "Name": "sda@afmms.ru",
     "Password": "2121",
-    "MessageCount": 2
+    "MessageCount": 3
+  },
+  {
+    "Name": "frj@afmms.ru",
+    "Password": "2121",
+    "MessageCount": 0
+  },
+  {
+    "Name": "hea@afmms.ru",
+    "Password": "2121",
+    "MessageCount": 0
+  },
+  {
+    "Name": "jeremy@afmms.ru",
+    "Password": "2121",
+    "MessageCount": 0
   }
 ]

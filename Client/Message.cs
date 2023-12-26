@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Client
     [JsonObject(MemberSerialization.OptIn)]
     public class Message
     {
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum MessageType
         {
             Sent,
@@ -37,7 +39,7 @@ namespace Client
         [JsonProperty("Receive Time", Order = 3)]
         public DateTime ReceiveTime { get { return _receiveTime; } internal set { _receiveTime = value; } }
 
-        [JsonProperty("MessageType", Order = 4)]
+        [JsonProperty("MessageType", Order = 4), JsonConverter(typeof(StringEnumConverter))]
         public MessageType Type { get { return _type; } internal set { _type = value; } }
 
         [JsonProperty("From", Order = 5)]
@@ -59,7 +61,7 @@ namespace Client
         public bool IsOpened { get { return _isOpened; } set { _isOpened = value; } }
 
         [JsonConstructor]
-        public Message(string from, List<string> to, string theme, string contentRtf, string content, MessageType type, DateTime sendTime, string id = "", bool isOpened = false)
+        public Message(string from, List<string> to, string theme, string contentRtf, string content, MessageType type, DateTime sendTime, string id = "")
         {
             _theme = theme;
             _sendTime = sendTime;
@@ -72,7 +74,6 @@ namespace Client
             _contentRtf = contentRtf;
             _type = type;
             _content = content;
-            _isOpened = isOpened;
         }
 
         public override int GetHashCode()

@@ -31,7 +31,7 @@ namespace Client
         private List<Message> _draftMessagesList = new List<Message>();
         private readonly Panel _draftMessagesPanel = new Panel() { BackColor = Color.White, Location = new Point(200, 200) };
 
-        private List<MailControl> _selectedMessages = new List<MailControl>();
+        private readonly List<MailControl> _selectedMessages = new List<MailControl>();
 
         private MailControl _openedMail;
 
@@ -257,8 +257,8 @@ namespace Client
             DialogResult = auth.ShowDialog();
             if (DialogResult == DialogResult.No)
                 Close();
-
-            Show();
+            else
+                Show();
         }
 
         private async void Auth_LogInSuccessed(object sender, string username)
@@ -266,7 +266,7 @@ namespace Client
             if (username == null)
                 username = Settings.Default.Login;
 
-            _username = username;
+            _username = username.ToLower();
             UsernameLabel.Text = _username;
 
             if (_client == null)
@@ -690,7 +690,7 @@ namespace Client
         {
             try
             {
-                _client.SendRequest($"Set Message Read:{_username}:{message.Id}:{message.Type}");
+                _client.SendRequest($"Set Message Read:{_username}:{message.Id}:{(int)message.Type}");
             }
             catch
             {

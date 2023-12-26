@@ -1,0 +1,14 @@
+{
+  "id": "07782fedfa714b77a6de416f12a7b122",
+  "Send Time": "2023-12-21T22:17:51.9967525+03:00",
+  "Receive Time": "2023-12-21T22:17:55.074216+03:00",
+  "MessageType": 1,
+  "From": "a@afmms.ru",
+  "To": [
+    "sda@afmms.ru"
+  ],
+  "Theme": "2121",
+  "ContentRtf": "{\\rtf1\\ansi\\ansicpg1251\\deff0\\nouicompat\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset204 Arial;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\qc\\ul\\i\\fs18\\lang1033 ddsadasdsadasdas\\par\r\na\\par\r\nsg\\par\r\nsg\\par\r\nsg\\par\r\ns\\par\r\ngs\\par\r\n\r\n\\pard\\qr\\par\r\ngs\\par\r\n\r\n\\pard sadsdasdasd\\ulnone\\f1\\lang1049\\par\r\n}\r\n",
+  "Content": "ddsadasdsadasdas\na\nsg\nsg\nsg\ns\ngs\n\ngs\nsadsdasdasd",
+  "IsOpened": false
+}

@@ -244,7 +244,7 @@ namespace Client
 
                 if (_msg != null)
                 {
-                    msg = new Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, MsgContentTB.Text, Message.MessageType.Draft, DateTime.Now, _msg.Id, false);
+                    msg = new Message(_username, _recipientsList, ThemeTB.Text, MsgContentTB.Rtf, MsgContentTB.Text, Message.MessageType.Draft, DateTime.Now, _msg.Id);
                 }
                 else
                 {

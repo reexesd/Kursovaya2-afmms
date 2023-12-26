@@ -221,31 +221,27 @@ namespace Server
 
                 case "Get Received Messages":
                     {
-                        e.Response = JsonConvert.SerializeObject(_mailBoxes[additionalParams].Messages["received"], Formatting.None);
+                        e.Response = JsonConvert.SerializeObject(_mailBoxes[additionalParams].Messages[Message.MessageType.Received], Formatting.None);
                     }
                     break;
 
                 case "Get Sent Messages":
                     {
-                        e.Response = JsonConvert.SerializeObject(_mailBoxes[additionalParams].Messages["sent"], Formatting.None);
+                        e.Response = JsonConvert.SerializeObject(_mailBoxes[additionalParams].Messages[Message.MessageType.Sent], Formatting.None);
                     }
                     break;
 
                 case "Get Draft Messages":
                     {
-                        e.Response = JsonConvert.SerializeObject(_mailBoxes[additionalParams].Messages["draft"], Formatting.None);
+                        e.Response = JsonConvert.SerializeObject(_mailBoxes[additionalParams].Messages[Message.MessageType.Draft], Formatting.None);
                     }
                     break;
 
                 case "Set Message Read":
                     {
                         string[] parameters = additionalParams.Split(':');
-                        if (parameters[2] == Message.MessageType.Sent.ToString())
-                            _mailBoxes[parameters[0]].MarkMessageAsRead(Message.MessageType.Sent, parameters[1]);
-                        else if (parameters[2] == Message.MessageType.Received.ToString())
-                            _mailBoxes[parameters[0]].MarkMessageAsRead(Message.MessageType.Received, parameters[1]);
-                        else
-                            _mailBoxes[parameters[0]].MarkMessageAsRead(Message.MessageType.Draft, parameters[1]);
+                        var type = (Message.MessageType)int.Parse(parameters[2]);
+                        _mailBoxes[parameters[0]].MarkMessageAsRead(type, parameters[1]);
                     }
                     break;
 
@@ -260,9 +256,9 @@ namespace Server
 
                         int countOfMessages = 0;
 
-                        countOfMessages += _mailBoxes[msg.From].Messages["draft"].Count;
-                        countOfMessages += _mailBoxes[msg.From].Messages["sent"].Count;
-                        countOfMessages += _mailBoxes[msg.From].Messages["received"].Count;
+                        countOfMessages += _mailBoxes[msg.From].Messages[Message.MessageType.Sent].Count;
+                        countOfMessages += _mailBoxes[msg.From].Messages[Message.MessageType.Received].Count;
+                        countOfMessages += _mailBoxes[msg.From].Messages[Message.MessageType.Draft].Count;
 
                         User usr = _users.Find(user => user.Username == msg.From);
                         usr.MessageCount = countOfMessages;
@@ -367,8 +363,10 @@ namespace Server
 
             if(!isFailed)
             {
-                Message msgForSender = new Message(message.From, message.To, message.Theme, message.ContentRtf, message.Content, Message.MessageType.Sent, message.SendTime, message.Id);
-                msgForSender.ReceiveTime = DateTime.Now;
+                Message msgForSender = new Message(message.From, message.To, message.Theme, message.ContentRtf, message.Content, Message.MessageType.Sent, message.SendTime, message.Id)
+                {
+                    ReceiveTime = DateTime.Now
+                };
                 _mailBoxes[message.From].AddMessage(msgForSender);
             }
             else

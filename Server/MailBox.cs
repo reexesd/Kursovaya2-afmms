@@ -17,9 +17,9 @@ namespace Server
         private readonly string _sentMsgPath;
         private readonly string _draftMsgPath;
 
-        private Dictionary<string, List<Message>> _messages = new Dictionary<string, List<Message>>();
+        private Dictionary<Message.MessageType, List<Message>> _messages = new Dictionary<Message.MessageType, List<Message>>();
 
-        internal Dictionary<string, List<Message>> Messages
+        internal Dictionary<Message.MessageType, List<Message>> Messages
         {
             get { return _messages; }
             set
@@ -57,25 +57,18 @@ namespace Server
             string path;
 
             if (msg.Type == Message.MessageType.Sent)
-            {
                 path = _sentMsgPath;
-                _messages["sent"].Insert(_messages["sent"].Count, msg);
-            }
             else if (msg.Type == Message.MessageType.Received)
-            {
                 path = _receivedMsgPath;
-                _messages["received"].Insert(_messages["received"].Count, msg);
-            }
+            else
+                path = _draftMsgPath;
+
+            if (!_messages[msg.Type].Contains(msg))
+                _messages[msg.Type].Add(msg);
             else
             {
-                path = _draftMsgPath;
-                if (!_messages["draft"].Contains(msg))
-                    _messages["draft"].Insert(_messages["draft"].Count, msg);
-                else
-                {
-                    _messages["draft"].RemoveAt(_messages["draft"].FindIndex(message => message.Id == msg.Id));
-                    _messages["draft"].Insert(_messages["draft"].Count, msg);
-                }
+                _messages[msg.Type].RemoveAt(_messages[msg.Type].FindIndex(message => message.Id == msg.Id));
+                _messages[msg.Type].Add(msg);
             }
 
             string messagePath = Path.Combine(path, msg.Id) + ".json";
@@ -87,11 +80,11 @@ namespace Server
 
         private void InitMessagesList()
         {
-            _messages.Add("sent", new List<Message>());
+            _messages.Add(Message.MessageType.Sent, new List<Message>());
 
-            _messages.Add("received", new List<Message>());
+            _messages.Add(Message.MessageType.Received, new List<Message>());
 
-            _messages.Add("draft", new List<Message>());
+            _messages.Add(Message.MessageType.Draft, new List<Message>());
 
             DirectoryInfo _sentDirectoryInfo = new DirectoryInfo(_sentMsgPath);
 
@@ -112,7 +105,7 @@ namespace Server
                 using (StreamReader sr = sentFile.OpenText())
                     messageContent = sr.ReadToEnd();
 
-                _messages["sent"].Add(JsonConvert.DeserializeObject<Message>(messageContent));
+                _messages[Message.MessageType.Sent].Add(JsonConvert.DeserializeObject<Message>(messageContent));
             }
 
             foreach (var receivedFile in receivedFiles)
@@ -122,7 +115,7 @@ namespace Server
                 using (StreamReader sr = receivedFile.OpenText())
                     messageContent = sr.ReadToEnd();
 
-                _messages["received"].Add(JsonConvert.DeserializeObject<Message>(messageContent));
+                _messages[Message.MessageType.Received].Add(JsonConvert.DeserializeObject<Message>(messageContent));
             }
             
             foreach (var draftFile in draftFiles)
@@ -132,76 +125,35 @@ namespace Server
                 using (StreamReader sr = draftFile.OpenText())
                     messageContent = sr.ReadToEnd();
 
-                _messages["draft"].Add(JsonConvert.DeserializeObject<Message>(messageContent));
+                _messages[Message.MessageType.Draft].Add(JsonConvert.DeserializeObject<Message>(messageContent));
             }
         }
 
         public void MarkMessageAsRead(Message.MessageType type, string id)
         {
-            switch (type)
-            {
-                case Message.MessageType.Sent:
-                    {
-                        Message msg = _messages["sent"].Find(message => message.Id == id);
-                        msg.IsOpened = true;
+            Message msg = _messages[type].Find(message => message.Id == id);
+            msg.IsOpened = true;
 
-                        string changedMessage = JsonConvert.SerializeObject(msg, Formatting.Indented);
-                        string path = Path.Combine(_sentMsgPath, $"{id}.json");
+            string changedMessage = JsonConvert.SerializeObject(msg, Formatting.Indented);
+            string path = Path.Combine(_path, type.ToString(), $"{id}.json");
 
-                        File.WriteAllText(path, changedMessage);
-                    }
-                    break;
-
-                case Message.MessageType.Received:
-                    {
-                        Message msg = _messages["received"].Find(message => message.Id == id); 
-                        msg.IsOpened = true;
-
-                        string changedMessage = JsonConvert.SerializeObject(msg, Formatting.Indented);
-                        string path = Path.Combine(_receivedMsgPath, $"{id}.json");
-
-                        File.WriteAllText(path, changedMessage);
-                    }
-                    break;
-
-                case Message.MessageType.Draft:
-                    {
-                        Message msg = _messages["draft"].Find(message => message.Id == id);
-                        msg.IsOpened = true;
-
-                        string changedMessage = JsonConvert.SerializeObject(msg, Formatting.Indented);
-                        string path = Path.Combine(_draftMsgPath, $"{id}.json");
-
-                        File.WriteAllText(path, changedMessage);
-                    }
-                    break;
-            }
+            File.WriteAllText(path, changedMessage);
         }
 
         public void DeleteMessage(Message.MessageType type, string id)
         {
-            string stype;
             string path;
 
             if (type == Message.MessageType.Sent)
-            {
-                stype = "sent";
                 path = _sentMsgPath;
-            }
             else if (type == Message.MessageType.Draft)
-            {
-                stype = "draft";
                 path = _draftMsgPath;
-            }
             else
-            {
-                stype = "received";
                 path = _receivedMsgPath;
-            }
 
             path = Path.Combine(path, $"{id}.json");
 
-            _messages[stype].RemoveAt(_messages[stype].FindIndex(msg => msg.Id == id));
+            _messages[type].RemoveAt(_messages[type].FindIndex(msg => msg.Id == id));
 
             File.Delete(path);
         }
