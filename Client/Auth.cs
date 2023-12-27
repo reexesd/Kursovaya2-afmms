@@ -1,13 +1,9 @@
 ﻿using Client.Properties;
-using System.IO.Pipes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Threading.Tasks;
-using System.Threading;
-using System.IO;
 using NamedPipeLib;
 
 namespace Client
@@ -44,7 +40,7 @@ namespace Client
             {
                 await _client.ConnectAsync(1);
             }
-            catch 
+            catch(Exception ex)
             {
                 if(showMsg)
                     MessageBox.Show("Сервер не отвечает, попробуйте позже", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);

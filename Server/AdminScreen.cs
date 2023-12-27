@@ -1,20 +1,11 @@
 ﻿using Server.Properties;
 using System;
-using Newtonsoft.Json;
-using System.IO.Pipes;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Collections.Concurrent;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Server

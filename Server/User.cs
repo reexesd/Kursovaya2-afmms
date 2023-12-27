@@ -36,15 +36,9 @@ namespace Server
             _messageCount = 0;
         }
 
-        public User(string username)
+        public bool IsLoginAccess(string password)
         {
-            _username = username;
-            _messageCount = 0;
-        }
-
-        public bool IsLoginAccess(string username, string password)
-        {
-            return username == _username && password == _password;
+            return password == _password;
         }
     }
 }

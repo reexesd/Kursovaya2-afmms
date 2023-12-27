@@ -2,14 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using NamedPipeLib;
 using System.Threading.Tasks;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.ComponentModel;
 
 namespace Server
 {
@@ -55,7 +50,7 @@ namespace Server
         #endregion
 
         #region Events Invokers
-        
+
         private static void OnNewUserRegistred(User user)
         {
             NewUserRegistred?.Invoke(null, user);
@@ -141,7 +136,7 @@ namespace Server
 
             string[] directories = Directory.GetDirectories(needDirectory, "*@afmms.ru", SearchOption.TopDirectoryOnly);
 
-            if(directories != null)
+            if (directories != null)
             {
                 for (int i = 0; i < directories.Length; i++)
                 {
@@ -196,13 +191,13 @@ namespace Server
 
                         _users = JsonConvert.DeserializeObject<List<User>>(registredUsers);
 
-                        if(_users == null)
+                        if (_users == null)
                         {
                             e.Response = "F";
                             break;
                         }
 
-                        if (_users.Find(u => u.Username == usernameAndPassword[0]).IsLoginAccess(usernameAndPassword[0], usernameAndPassword[1]))
+                        if (_users.Find(u => u.Username == usernameAndPassword[0]).IsLoginAccess(usernameAndPassword[1]))
                             e.Response = "T";
                     }
                     break;
@@ -334,7 +329,7 @@ namespace Server
 
             string updatedUserData;
 
-            for(int i = 0; i < message.To.Count; i++)
+            for (int i = 0; i < message.To.Count; i++)
             {
                 OnMessageProcessingStarted(message);
                 await Task.Delay(3000);
@@ -361,19 +356,15 @@ namespace Server
                 await Task.Delay(3000);
             }
 
-            if(!isFailed)
+            Message msgForSender = new Message(message.From, message.To, message.Theme, message.ContentRtf, message.Content, Message.MessageType.Sent, message.SendTime, message.Id)
             {
-                Message msgForSender = new Message(message.From, message.To, message.Theme, message.ContentRtf, message.Content, Message.MessageType.Sent, message.SendTime, message.Id)
-                {
-                    ReceiveTime = DateTime.Now
-                };
-                _mailBoxes[message.From].AddMessage(msgForSender);
-            }
-            else
-            {
-                message.Type = Message.MessageType.Draft;
-                _mailBoxes[message.From].AddMessage(message);
-            }
+                ReceiveTime = DateTime.Now
+            };
+
+            if (isFailed)
+                msgForSender.Type = Message.MessageType.Draft;
+
+            _mailBoxes[message.From].AddMessage(msgForSender);
 
             User sender = _users.Find(user => user.Username == message.From);
             sender.MessageCount++;

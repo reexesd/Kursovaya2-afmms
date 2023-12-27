@@ -49,7 +49,7 @@ namespace Server
             if (!Directory.Exists(_draftMsgPath))
                 Directory.CreateDirectory(_draftMsgPath);
 
-            InitMessagesList();
+            InitMessagesDictionary();
         }
 
         public void AddMessage(Message msg)
@@ -78,7 +78,7 @@ namespace Server
             File.WriteAllText(messagePath, newMail);
         }
 
-        private void InitMessagesList()
+        private void InitMessagesDictionary()
         {
             _messages.Add(Message.MessageType.Sent, new List<Message>());
 

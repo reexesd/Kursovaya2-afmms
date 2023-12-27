@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NamedPipeLib;
 using Newtonsoft.Json;
-using System.Reflection;
 using System.Collections.Generic;
-using Client;
 using System.IO;
 
 namespace Client

@@ -49,7 +49,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>u0+YR6dmCLGbnLceVHAiNyjvYpL+6hrb7Yc7kvdCNao=</dsig:DigestValue>
+        <dsig:DigestValue>rkuucr9pExwHYYXp5fy/nFeU+1HMA43rfJ1RjhNTrlM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -68,7 +68,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>CPQLvmqu7Kvk7KNT2vrxr02pGtU7Ecazx+c3O3fnOfQ=</dsig:DigestValue>
+      <dsig:DigestValue>afTkqq1uDyaNbQLIEOoYwUULiqc9mQz2rVTxY0ZvJJ0=</dsig:DigestValue>
     </hash>
   </file>
   <file name="ServerData.txt" size="4">
